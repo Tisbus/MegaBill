@@ -4,10 +4,10 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "bill")
-class BillData(
+data class BillData(
     @PrimaryKey(autoGenerate = true)
-    private val id: Int,
-    private val name: String,
-    private val item: String,
-    private val price: Int
+    val id: Int,
+    val name: String,
+    val item: String,
+    val price: Int
 )

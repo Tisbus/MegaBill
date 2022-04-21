@@ -1,8 +1,13 @@
 package com.example.megabill.domain.entities
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
 data class Person(
-    private var id: Int = UNDEFINED_ID,
-    private val name: String
+    @PrimaryKey
+    var id: Int = UNDEFINED_ID,
+    val name: String
 ){
     companion object{
         const val UNDEFINED_ID = 0

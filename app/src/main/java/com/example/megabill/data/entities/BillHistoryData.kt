@@ -7,9 +7,9 @@ import com.example.megabill.domain.entities.Bill
 @Entity(tableName = "bill_history")
 data class BillHistoryData(
     @PrimaryKey(autoGenerate = true)
-    private val id: Int,
-    private val data: String,
-    private val partyName: String,
-    private val totalSum: Int,
-    private val listBill: List<Bill>
+    val id: Int,
+    val data: String,
+    val partyName: String,
+    val totalSum: Int,
+/*    val listBill: List<Bill>*/
 )

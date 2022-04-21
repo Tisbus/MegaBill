@@ -1,4 +1,4 @@
-package com.example.megabill.presentation.fragment.main
+package com.example.megabill.presentation.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

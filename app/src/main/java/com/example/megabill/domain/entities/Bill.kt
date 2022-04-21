@@ -1,10 +1,15 @@
 package com.example.megabill.domain.entities
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
 data class Bill(
-    private var id : Int = UNDEFINED_ID,
-    private val name : String,
-    private val item : String,
-    private val price : Int
+    @PrimaryKey
+    var id : Int = UNDEFINED_ID,
+    val name : String,
+    val item : String,
+    val price : Int
 ){
     companion object{
         const val UNDEFINED_ID = 0
