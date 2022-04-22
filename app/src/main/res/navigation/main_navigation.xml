@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/startFragment">
+
+    <fragment
+        android:id="@+id/addItemFragment"
+        android:name="com.example.megabill.presentation.fragment.AddItemFragment"
+        android:label="fragment_add_item"
+        tools:layout="@layout/fragment_add_item" />
+    <fragment
+        android:id="@+id/addPersonFragment"
+        android:name="com.example.megabill.presentation.fragment.AddPersonFragment"
+        android:label="fragment_add_person"
+        tools:layout="@layout/fragment_add_person" >
+        <action
+            android:id="@+id/action_addPersonFragment_to_listBillFragment"
+            app:destination="@id/listBillFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/billDetailFragment"
+        android:name="com.example.megabill.presentation.fragment.BillDetailFragment"
+        android:label="fragment_bill_detail"
+        tools:layout="@layout/fragment_bill_detail" />
+    <fragment
+        android:id="@+id/editItemFragment"
+        android:name="com.example.megabill.presentation.fragment.EditItemFragment"
+        android:label="fragment_edit_item"
+        tools:layout="@layout/fragment_edit_item" />
+    <fragment
+        android:id="@+id/listBillFragment"
+        android:name="com.example.megabill.presentation.fragment.ListBillFragment"
+        android:label="fragment_list_bill"
+        tools:layout="@layout/fragment_list_bill" >
+        <action
+            android:id="@+id/action_listBillFragment_to_addItemFragment"
+            app:destination="@id/addItemFragment"
+            app:popUpTo="@id/listBillFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_listBillFragment_to_editItemFragment"
+            app:destination="@id/editItemFragment"
+            app:popUpTo="@id/listBillFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_listBillFragment_to_totalBillFragment"
+            app:destination="@id/totalBillFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/startFragment"
+        android:name="com.example.megabill.presentation.fragment.StartFragment"
+        android:label="fragment_start"
+        tools:layout="@layout/fragment_start" >
+        <action
+            android:id="@+id/action_startFragment_to_billDetailFragment"
+            app:destination="@id/billDetailFragment"
+            app:popUpTo="@id/startFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_startFragment_to_addPersonFragment"
+            app:destination="@id/addPersonFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/totalBillFragment"
+        android:name="com.example.megabill.presentation.fragment.TotalBillFragment"
+        android:label="fragment_total_bill"
+        tools:layout="@layout/fragment_total_bill" >
+        <action
+            android:id="@+id/action_totalBillFragment_to_startFragment"
+            app:destination="@id/startFragment" />
+    </fragment>
+</navigation>
