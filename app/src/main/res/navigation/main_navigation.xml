@@ -9,7 +9,11 @@
         android:id="@+id/addItemFragment"
         android:name="com.example.megabill.presentation.fragment.AddItemFragment"
         android:label="fragment_add_item"
-        tools:layout="@layout/fragment_add_item" />
+        tools:layout="@layout/fragment_add_item" >
+        <action
+            android:id="@+id/action_addItemFragment_to_listBillFragment"
+            app:destination="@id/listBillFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addPersonFragment"
         android:name="com.example.megabill.presentation.fragment.AddPersonFragment"
@@ -28,7 +32,11 @@
         android:id="@+id/editItemFragment"
         android:name="com.example.megabill.presentation.fragment.EditItemFragment"
         android:label="fragment_edit_item"
-        tools:layout="@layout/fragment_edit_item" />
+        tools:layout="@layout/fragment_edit_item" >
+        <action
+            android:id="@+id/action_editItemFragment_to_listBillFragment"
+            app:destination="@id/listBillFragment" />
+    </fragment>
     <fragment
         android:id="@+id/listBillFragment"
         android:name="com.example.megabill.presentation.fragment.ListBillFragment"
@@ -36,14 +44,10 @@
         tools:layout="@layout/fragment_list_bill" >
         <action
             android:id="@+id/action_listBillFragment_to_addItemFragment"
-            app:destination="@id/addItemFragment"
-            app:popUpTo="@id/listBillFragment"
-            app:popUpToInclusive="true" />
+            app:destination="@id/addItemFragment" />
         <action
             android:id="@+id/action_listBillFragment_to_editItemFragment"
-            app:destination="@id/editItemFragment"
-            app:popUpTo="@id/listBillFragment"
-            app:popUpToInclusive="true" />
+            app:destination="@id/editItemFragment" />
         <action
             android:id="@+id/action_listBillFragment_to_totalBillFragment"
             app:destination="@id/totalBillFragment" />

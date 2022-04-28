@@ -5,7 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.example.megabill.R
+import com.example.megabill.databinding.FragmentAddItemBinding
+import java.lang.RuntimeException
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,6 +25,10 @@ class AddItemFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private var _bind : FragmentAddItemBinding? = null
+    private val bind : FragmentAddItemBinding
+    get() = _bind ?: throw RuntimeException("FragmentAddItemBinding == null")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -33,9 +40,17 @@ class AddItemFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_item, container, false)
+        _bind = FragmentAddItemBinding.inflate(inflater, container, false)
+        return bind.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        bind.bAddItem.setOnClickListener {
+            findNavController().navigate(R.id.action_addItemFragment_to_listBillFragment)
+        }
     }
 
     companion object {

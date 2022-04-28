@@ -5,7 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.example.megabill.R
+import com.example.megabill.databinding.FragmentEditItemBinding
+import java.lang.RuntimeException
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,6 +25,10 @@ class EditItemFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private var _bind : FragmentEditItemBinding? = null
+    private val bind : FragmentEditItemBinding
+    get() = _bind ?: throw RuntimeException("FragmentEditItemBinding == null")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -33,11 +40,18 @@ class EditItemFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit_item, container, false)
+        _bind = FragmentEditItemBinding.inflate(inflater, container, false)
+        return bind.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        bind.bEditItem.setOnClickListener {
+            findNavController().navigate(R.id.action_editItemFragment_to_listBillFragment)
+        }
+    }
     companion object {
         /**
          * Use this factory method to create a new instance of
