@@ -1,4 +1,4 @@
-package com.example.megabill.data.room
+package com.example.megabill.data.room.person
 
 import android.app.Application
 import androidx.room.Database

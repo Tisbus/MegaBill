@@ -1,8 +1,7 @@
-package com.example.megabill.data.mapper
+package com.example.megabill.data.mapper.person
 
 import com.example.megabill.data.entities.PersonData
 import com.example.megabill.domain.entities.Person
-import java.util.Collections.list
 
 class BillMapper {
     fun mapPersonEntityToDb(item : Person) = PersonData(

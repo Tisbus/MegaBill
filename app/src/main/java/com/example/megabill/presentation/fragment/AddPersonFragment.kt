@@ -9,14 +9,12 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.megabill.R
-import com.example.megabill.data.entities.PersonData
 import com.example.megabill.databinding.FragmentAddPersonBinding
 import com.example.megabill.domain.entities.Person
-import com.example.megabill.presentation.viewmodel.BillViewModel
+import com.example.megabill.presentation.viewmodel.person.BillViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

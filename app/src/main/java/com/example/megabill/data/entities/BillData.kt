@@ -8,6 +8,7 @@ data class BillData(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val name: String,
+    val idName : Int,
     val item: String,
     val price: Int
 )

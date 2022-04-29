@@ -1,4 +1,4 @@
-package com.example.megabill.data.room
+package com.example.megabill.data.room.bill
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

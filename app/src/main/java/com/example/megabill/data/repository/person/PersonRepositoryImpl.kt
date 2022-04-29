@@ -1,14 +1,14 @@
-package com.example.megabill.data.repository
+package com.example.megabill.data.repository.person
 
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import com.example.megabill.data.mapper.BillMapper
-import com.example.megabill.data.room.PersonDatabase
+import com.example.megabill.data.mapper.person.BillMapper
+import com.example.megabill.data.room.person.PersonDatabase
 import com.example.megabill.domain.entities.Person
-import com.example.megabill.domain.repository.BillRepository
+import com.example.megabill.domain.repository.person.PersonRepository
 
-class BillRepositoryImpl(application: Application) : BillRepository {
+class PersonRepositoryImpl(application: Application) : PersonRepository {
 
     private val mapper = BillMapper()
 

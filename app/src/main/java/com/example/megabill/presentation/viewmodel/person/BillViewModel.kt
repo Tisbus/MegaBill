@@ -1,13 +1,16 @@
-package com.example.megabill.presentation.viewmodel
+package com.example.megabill.presentation.viewmodel.person
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import com.example.megabill.data.repository.BillRepositoryImpl
+import com.example.megabill.data.repository.person.PersonRepositoryImpl
 import com.example.megabill.domain.entities.Person
-import com.example.megabill.domain.usecase.*
+import com.example.megabill.domain.usecase.person.AddPersonItemUseCase
+import com.example.megabill.domain.usecase.person.DeleteAllPersonItemUseCase
+import com.example.megabill.domain.usecase.person.GetPersonItemUseCase
+import com.example.megabill.domain.usecase.person.GetPersonListUseCase
 
 class BillViewModel(application: Application ) : AndroidViewModel(application) {
-    private val repository = BillRepositoryImpl(application)
+    private val repository = PersonRepositoryImpl(application)
 
     private val addPersonItemUseCase = AddPersonItemUseCase(repository)
     private val deleteAllPersonItemUseCase = DeleteAllPersonItemUseCase(repository)
