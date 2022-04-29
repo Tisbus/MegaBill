@@ -4,9 +4,9 @@ import android.app.Application
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.megabill.data.entities.PersonData
+import com.example.megabill.domain.entities.Person
 
-@Database(entities = [PersonData::class], version = 2, exportSchema = false)
+@Database(entities = [Person::class], version = 3, exportSchema = false)
 abstract class PersonDatabase : RoomDatabase() {
 
     abstract fun billDao(): BillDao
