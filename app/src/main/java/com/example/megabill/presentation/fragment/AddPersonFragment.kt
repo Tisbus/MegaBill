@@ -14,7 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.megabill.R
 import com.example.megabill.databinding.FragmentAddPersonBinding
 import com.example.megabill.domain.entities.Person
-import com.example.megabill.presentation.viewmodel.person.BillViewModel
+import com.example.megabill.presentation.viewmodel.person.PersonViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,7 +35,7 @@ class AddPersonFragment : Fragment() {
     private val bind: FragmentAddPersonBinding
         get() = _bind ?: throw RuntimeException("FragmentAddPersonBinding == null")
 
-    lateinit var viewModel : BillViewModel
+    lateinit var viewModel : PersonViewModel
 
     private var listPerson : MutableList<Person> = mutableListOf()
 
@@ -61,7 +61,7 @@ class AddPersonFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[BillViewModel::class.java]
+        viewModel = ViewModelProvider(this)[PersonViewModel::class.java]
         viewModel.listPerson.observe(viewLifecycleOwner){
             clearData()
             listPerson = it
@@ -100,10 +100,10 @@ class AddPersonFragment : Fragment() {
 
     private fun saveNameToDb(){
         viewModel.deleteAllPersonItem()
-        var count = Person.UNDEFINED_ID
+        var id = Person.UNDEFINED_ID
         for(item in listPersonView){
             val name = item.findViewById<EditText>(R.id.etPersonName).text.toString()
-            viewModel.addPersonItem(name, count++)
+            viewModel.addPersonItem(id++, name)
         }
     }
 

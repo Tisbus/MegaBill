@@ -8,7 +8,7 @@ import com.example.megabill.domain.usecase.person.AddPersonItemUseCase
 import com.example.megabill.domain.usecase.person.DeleteAllPersonItemUseCase
 import com.example.megabill.domain.usecase.person.GetPersonListUseCase
 
-class BillViewModel(application: Application ) : AndroidViewModel(application) {
+class PersonViewModel(application: Application ) : AndroidViewModel(application) {
     private val repository = PersonRepositoryImpl(application)
 
     private val addPersonItemUseCase = AddPersonItemUseCase(repository)
@@ -17,8 +17,8 @@ class BillViewModel(application: Application ) : AndroidViewModel(application) {
 
     val listPerson = getPersonListUseCase.getPersonList()
 
-    fun addPersonItem(name : String, count : Int){
-        addPersonItemUseCase.addPersonItem(Person(name, count))
+    fun addPersonItem(id : Int, name : String){
+        addPersonItemUseCase.addPersonItem(Person(id, name))
     }
     fun deleteAllPersonItem(){
         deleteAllPersonItemUseCase.deleteAllPersonItem()

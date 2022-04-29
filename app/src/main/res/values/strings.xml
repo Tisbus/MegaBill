@@ -11,4 +11,7 @@
     <string name="add_name">Введите имя</string>
     <string name="delete">X</string>
     <string name="add_persons_name">Добавьте имена:</string>
+    <string name="bill_name">Имя</string>
+    <string name="name_item">Продукт</string>
+    <string name="price_item">Цена</string>
 </resources>

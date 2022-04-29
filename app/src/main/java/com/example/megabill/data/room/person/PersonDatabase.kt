@@ -6,10 +6,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.megabill.domain.entities.Person
 
-@Database(entities = [Person::class], version = 3, exportSchema = false)
+@Database(entities = [Person::class], version = 1, exportSchema = false)
 abstract class PersonDatabase : RoomDatabase() {
 
-    abstract fun billDao(): BillDao
+    abstract fun billDao(): PersonDao
 
     companion object {
         private const val DB_NAME = "persons"

@@ -1,8 +1,4 @@
-package com.example.megabill.data.room
-
-import androidx.room.Database
-import androidx.room.RoomDatabase
-import com.example.megabill.domain.entities.BillHistory
+package com.example.megabill.data.room.history
 
 
 /*

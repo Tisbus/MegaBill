@@ -5,9 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.megabill.R
 import com.example.megabill.databinding.FragmentListBillBinding
+import com.example.megabill.domain.entities.Bill
+import com.example.megabill.presentation.adapter.ListBillAdapter
+import com.example.megabill.presentation.viewmodel.bill.BillViewModel
 import java.lang.RuntimeException
 
 // TODO: Rename parameter arguments, choose names that match
@@ -24,6 +30,10 @@ class ListBillFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    private lateinit var viewBillModel : BillViewModel
+    private lateinit var billAdapter: ListBillAdapter
+    private var billList: MutableList<Bill> = mutableListOf()
 
     private var _bind : FragmentListBillBinding? = null
     private val bind : FragmentListBillBinding
@@ -48,12 +58,29 @@ class ListBillFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewBillModel = ViewModelProvider(this)[BillViewModel::class.java]
+        viewBillModel.listBill.observe(viewLifecycleOwner){
+            billList = it
+            recyclerSetup()
+        }
         bind.fbAddItem.setOnClickListener {
             findNavController().navigate(R.id.action_listBillFragment_to_addItemFragment)
         }
         bind.bNextGoTotal.setOnClickListener {
             findNavController().navigate(R.id.action_listBillFragment_to_totalBillFragment)
         }
+    }
+
+    private fun recyclerSetup() : RecyclerView {
+        val recyclerMain = bind.recyclerListBill
+        with(recyclerMain){
+            billAdapter = ListBillAdapter(billList)
+            adapter = billAdapter
+            recycledViewPool.setMaxRecycledViews(
+                0, 30
+            )
+        }
+        return recyclerMain
     }
 
     companion object {

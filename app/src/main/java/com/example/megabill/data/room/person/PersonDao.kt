@@ -7,7 +7,7 @@ import androidx.room.Query
 import com.example.megabill.domain.entities.Person
 
 @Dao
-interface BillDao {
+interface PersonDao {
     @Query("SELECT * FROM person")
     fun getPersonList() : LiveData<MutableList<Person>>
     @Insert

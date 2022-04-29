@@ -5,9 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
 import androidx.navigation.fragment.findNavController
 import com.example.megabill.R
 import com.example.megabill.databinding.FragmentAddItemBinding
+import com.example.megabill.presentation.viewmodel.bill.BillViewModel
 import java.lang.RuntimeException
 
 // TODO: Rename parameter arguments, choose names that match
@@ -24,6 +27,8 @@ class AddItemFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    private lateinit var billViewModel : BillViewModel
 
     private var _bind : FragmentAddItemBinding? = null
     private val bind : FragmentAddItemBinding
@@ -48,7 +53,13 @@ class AddItemFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        billViewModel = ViewModelProvider(this)[BillViewModel::class.java]
         bind.bAddItem.setOnClickListener {
+            val name = "denis"
+            val nameId = 1
+            val itemName = bind.etItemName.text.toString()
+            val price = Integer.valueOf(bind.etPrice.text.toString())
+            billViewModel.addBillItem(name, nameId, itemName, price)
             findNavController().navigate(R.id.action_addItemFragment_to_listBillFragment)
         }
     }
