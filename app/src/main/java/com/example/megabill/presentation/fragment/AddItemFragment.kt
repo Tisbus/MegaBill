@@ -5,12 +5,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.example.megabill.R
 import com.example.megabill.databinding.FragmentAddItemBinding
+import com.example.megabill.domain.entities.Person
+import com.example.megabill.presentation.adapter.ChoosePersonAdapter
 import com.example.megabill.presentation.viewmodel.bill.BillViewModel
+import com.example.megabill.presentation.viewmodel.person.PersonViewModel
 import java.lang.RuntimeException
 
 // TODO: Rename parameter arguments, choose names that match
@@ -29,6 +34,13 @@ class AddItemFragment : Fragment() {
     private var param2: String? = null
 
     private lateinit var billViewModel : BillViewModel
+    private lateinit var personViewModel : PersonViewModel
+    private lateinit var adapterChoosePerson : ChoosePersonAdapter
+    private var choosePersonList : MutableList<Person> = mutableListOf()
+    private lateinit var namePerson : String
+    private var _nameId : Int? = null
+    private val nameId : Int
+    get() = _nameId ?: throw RuntimeException("_nameId == null")
 
     private var _bind : FragmentAddItemBinding? = null
     private val bind : FragmentAddItemBinding
@@ -54,14 +66,31 @@ class AddItemFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         billViewModel = ViewModelProvider(this)[BillViewModel::class.java]
+        personViewModel = ViewModelProvider(this)[PersonViewModel::class.java]
+        personViewModel.listPerson.observe(viewLifecycleOwner){
+            choosePersonList = it
+            setupRecyclerView()
+        }
         bind.bAddItem.setOnClickListener {
-            val name = "denis"
-            val nameId = 1
             val itemName = bind.etItemName.text.toString()
             val price = Integer.valueOf(bind.etPrice.text.toString())
-            billViewModel.addBillItem(name, nameId, itemName, price)
+            billViewModel.addBillItem(namePerson, nameId, itemName, price)
             findNavController().navigate(R.id.action_addItemFragment_to_listBillFragment)
         }
+    }
+
+    private fun setupRecyclerView() : RecyclerView{
+        val recyclerView = bind.recyclerPerson
+        with(recyclerView){
+            adapterChoosePerson = ChoosePersonAdapter(choosePersonList)
+            adapter = adapterChoosePerson
+            adapterChoosePerson.onSelectItem = {
+                namePerson = it.name
+                _nameId = it.id
+                Toast.makeText(activity, "Name is ${it.name}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        return recyclerView
     }
 
     companion object {

@@ -2,14 +2,12 @@ package com.example.megabill.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.example.megabill.databinding.BillItemBinding
 import com.example.megabill.domain.entities.Bill
 
 class ListBillAdapter(private var billList :MutableList<Bill>) : RecyclerView.Adapter<ListBillAdapter.ListBillViewHolder>(){
 
-    private lateinit var bind : ViewDataBinding
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListBillViewHolder {
         val binding = BillItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ListBillViewHolder(binding)

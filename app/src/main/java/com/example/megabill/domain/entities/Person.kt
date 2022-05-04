@@ -8,6 +8,7 @@ data class Person(
     @PrimaryKey(autoGenerate = false)
     var id: Int = UNDEFINED_ID,
     val name: String,
+    var status : Boolean = false
 ){
     companion object{
         const val UNDEFINED_ID = 0

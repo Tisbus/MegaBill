@@ -12,15 +12,32 @@
     android:layout_height="match_parent"
     tools:context=".presentation.fragment.AddItemFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerPerson"
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
+        android:layout_height="120dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".presentation.fragment.AddItemFragment">
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerPerson"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="8dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:listitem="@layout/choose_person_disable" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilItemName"
         android:layout_width="0dp"
@@ -28,7 +45,7 @@
         android:layout_margin="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerPerson">
+        app:layout_constraintTop_toBottomOf="@+id/scrollView">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etItemName"
