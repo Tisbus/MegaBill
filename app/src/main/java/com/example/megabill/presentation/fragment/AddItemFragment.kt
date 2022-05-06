@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
 import androidx.navigation.fragment.findNavController
@@ -70,6 +72,7 @@ class AddItemFragment : Fragment() {
         personViewModel.listPerson.observe(viewLifecycleOwner){
             choosePersonList = it
             setupRecyclerView()
+            itemSelect()
         }
         bind.bAddItem.setOnClickListener {
             val itemName = bind.etItemName.text.toString()
@@ -84,13 +87,16 @@ class AddItemFragment : Fragment() {
         with(recyclerView){
             adapterChoosePerson = ChoosePersonAdapter(choosePersonList)
             adapter = adapterChoosePerson
-            adapterChoosePerson.onSelectItem = {
-                namePerson = it.name
-                _nameId = it.id
-                Toast.makeText(activity, "Name is ${it.name}", Toast.LENGTH_SHORT).show()
-            }
         }
         return recyclerView
+    }
+    private fun itemSelect(){
+        adapterChoosePerson.onSelectItem = {
+            namePerson = it.name
+            _nameId = it.id
+            it.status = true
+            Toast.makeText(activity, "Name is ${it.name}", Toast.LENGTH_SHORT).show()
+        }
     }
 
     companion object {
