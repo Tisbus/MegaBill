@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -72,22 +73,13 @@ class ListBillFragment : Fragment() {
 
     private fun editItem(){
         billAdapter.itemSelect = {
-            newInstance(it.id)
             Toast.makeText(activity, "${it.id}", Toast.LENGTH_SHORT).show()
-            findNavController().navigate(R.id.action_listBillFragment_to_editItemFragment)
+            val bundle = bundleOf(ARG_ITEM_ID to it.id)
+            findNavController().navigate(R.id.action_listBillFragment_to_editItemFragment, bundle)
         }
     }
 
     companion object {
-
         private const val ARG_ITEM_ID = "itemId"
-
-        @JvmStatic
-        fun newInstance(id: Int) =
-            ListBillFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_ITEM_ID, id)
-                }
-            }
     }
 }

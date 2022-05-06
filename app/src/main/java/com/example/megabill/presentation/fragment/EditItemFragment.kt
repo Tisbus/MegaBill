@@ -1,30 +1,45 @@
 package com.example.megabill.presentation.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.example.megabill.R
 import com.example.megabill.databinding.FragmentEditItemBinding
-import kotlin.math.log
+import com.example.megabill.domain.entities.Person
+import com.example.megabill.presentation.adapter.ChoosePersonAdapter
+import com.example.megabill.presentation.viewmodel.bill.BillViewModel
+import com.example.megabill.presentation.viewmodel.person.PersonViewModel
 
 class EditItemFragment : Fragment() {
+
     private var itemId: Int? = null
 
-    private var _bind : FragmentEditItemBinding? = null
-    private val bind : FragmentEditItemBinding
-    get() = _bind ?: throw RuntimeException("FragmentEditItemBinding == null")
+    private var _bind: FragmentEditItemBinding? = null
+    private val bind: FragmentEditItemBinding
+        get() = _bind ?: throw RuntimeException("FragmentEditItemBinding == null")
+
+    private lateinit var viewBillModel: BillViewModel
+    private lateinit var viewPersonModel: PersonViewModel
+    private lateinit var adapterChoosePerson: ChoosePersonAdapter
+    private var choosePersonList: MutableList<Person> = mutableListOf()
+
+    private lateinit var namePerson: String
+    private var _nameId: Int? = null
+    private val nameId: Int
+        get() = _nameId ?: throw java.lang.RuntimeException("_nameId == null")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            itemId = it.getInt(ARG_ITEM_ID)
-        }
-        Log.i("check", "$itemId")
+        parseArg()
+    }
+
+    private fun parseArg() {
+        itemId = arguments?.getInt(ARG_ITEM_ID)
     }
 
     override fun onCreateView(
@@ -36,14 +51,66 @@ class EditItemFragment : Fragment() {
         return bind.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewBillModel = ViewModelProvider(this)[BillViewModel::class.java]
+        viewPersonModel = ViewModelProvider(this)[PersonViewModel::class.java]
+        getData()
+        viewPersonModel.listPerson.observe(viewLifecycleOwner) {
+            choosePersonList = it
+            setupRecycler()
+            itemSelect()
+        }
+        saveEditBill()
+    }
+
+    private fun saveEditBill() {
         bind.bEditItem.setOnClickListener {
+            with(bind) {
+                val item = etItemName.text.toString()
+                val price = etPrice.text.toString().toInt()
+                viewBillModel.editBillItem(namePerson, nameId, item, price)
+            }
             findNavController().navigate(R.id.action_editItemFragment_to_listBillFragment)
         }
     }
 
-    companion object{
+    private fun setupRecycler(): RecyclerView {
+        val recycler = bind.recyclerPerson
+        with(recycler) {
+            adapterChoosePerson = ChoosePersonAdapter(choosePersonList)
+            adapter = adapterChoosePerson
+        }
+        return recycler
+    }
+
+    private fun itemSelect() {
+        adapterChoosePerson.onSelectItem = {
+            _nameId = it.id
+            namePerson = it.name
+            it.status = true
+        }
+    }
+
+    private fun getData() {
+        itemId?.let {
+            viewBillModel.getBillItem(it)
+        }
+        with(bind) {
+            viewBill = viewBillModel
+            lifecycleOwner = viewLifecycleOwner
+            val bill = viewBillModel.getBillItemLD.value
+            with(bill) {
+                this?.let {
+                    _nameId = it.idName
+                    namePerson = it.name
+                }
+            }
+        }
+    }
+
+    companion object {
         private const val ARG_ITEM_ID = "itemId"
     }
 }

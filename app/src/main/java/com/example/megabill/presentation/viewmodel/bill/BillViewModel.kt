@@ -36,7 +36,8 @@ class BillViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun getBillItem(itemId : Int){
-        getBillItemUseCase.getBillItem(itemId)
+        val bill = getBillItemUseCase.getBillItem(itemId)
+        _getBillItemLD.value = bill
     }
 
     fun deleteAllBillItem(){

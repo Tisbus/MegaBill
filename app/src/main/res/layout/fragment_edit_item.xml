@@ -1,19 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="view_bill"
+            type="com.example.megabill.presentation.viewmodel.bill.BillViewModel" />
+    </data>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".presentation.fragment.EditItemFragment">
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".presentation.fragment.AddItemFragment">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerPerson"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="8dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="horizontal"
+        tools:listitem="@layout/choose_person_disable"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
+        </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilItemName"
         android:layout_width="0dp"
@@ -21,12 +41,13 @@
         android:layout_margin="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerPerson">
+        app:layout_constraintTop_toBottomOf="@+id/scrollView">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etItemName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@{view_bill.getBillItemLD.item}"
             android:hint="@string/item_name" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -43,6 +64,7 @@
             android:id="@+id/etPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@{String.valueOf(view_bill.getBillItemLD.price)}"
             android:hint="@string/item_price" />
     </com.google.android.material.textfield.TextInputLayout>
 
