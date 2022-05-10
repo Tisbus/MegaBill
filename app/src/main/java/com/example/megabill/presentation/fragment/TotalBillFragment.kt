@@ -1,14 +1,17 @@
 package com.example.megabill.presentation.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.megabill.R
 import com.example.megabill.databinding.FragmentTotalBillBinding
-import java.lang.RuntimeException
+import com.example.megabill.domain.entities.Total
+import com.example.megabill.presentation.viewmodel.bill.BillViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,6 +30,8 @@ class TotalBillFragment : Fragment() {
     private var _bind : FragmentTotalBillBinding? = null
     private val bind : FragmentTotalBillBinding
     get() = _bind ?: throw RuntimeException("FragmentTotalBillBinding == null")
+    private var listTotal = mutableListOf<Total>()
+    private lateinit var modelBill : BillViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +55,10 @@ class TotalBillFragment : Fragment() {
         bind.bSaveBill.setOnClickListener {
             findNavController().navigate(R.id.action_totalBillFragment_to_startFragment)
         }
+    }
+
+    fun getData(){
+
     }
 
     companion object {

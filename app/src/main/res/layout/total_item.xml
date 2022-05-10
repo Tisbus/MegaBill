@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvNamePerson"
+                android:layout_width="100dp"
+                android:layout_height="0dp"
+                android:background="@android:color/holo_blue_light"
+                android:gravity="center"
+                android:padding="4dp"
+                android:textColor="#ffffff"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tvListProduct"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Имя" />
+
+            <TextView
+                android:id="@+id/tvListProduct"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="4dp"
+                app:layout_constraintBottom_toTopOf="@+id/tvTotalSum"
+                app:layout_constraintEnd_toStartOf="@+id/tvTipsSum"
+                app:layout_constraintStart_toEndOf="@+id/tvNamePerson"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Список покупок" />
+
+            <TextView
+                android:id="@+id/tvTotalSum"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tvTotalWithTips"
+                app:layout_constraintStart_toEndOf="@+id/tvNamePerson"
+                app:layout_constraintTop_toBottomOf="@+id/tvListProduct"
+                tools:text="5650 руб." />
+
+            <TextView
+                android:id="@+id/tvTipsSum"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="4dp"
+                app:layout_constraintBottom_toTopOf="@+id/tvTotalWithTips"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvListProduct"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="250 руб." />
+
+            <TextView
+                android:id="@+id/tvTotalWithTips"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvTotalSum"
+                app:layout_constraintTop_toBottomOf="@+id/tvTipsSum"
+                tools:text="5900 руб." />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>
