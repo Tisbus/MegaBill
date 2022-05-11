@@ -15,10 +15,12 @@ import com.example.megabill.databinding.FragmentListBillBinding
 import com.example.megabill.domain.entities.Bill
 import com.example.megabill.presentation.adapter.ListBillAdapter
 import com.example.megabill.presentation.viewmodel.bill.BillViewModel
+import com.example.megabill.presentation.viewmodel.total.TotalViewModel
 
 class ListBillFragment : Fragment() {
 
     private lateinit var viewBillModel : BillViewModel
+    private lateinit var modelTotal : TotalViewModel
     private lateinit var billAdapter: ListBillAdapter
     private var billList: MutableList<Bill> = mutableListOf()
 
@@ -42,6 +44,7 @@ class ListBillFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewBillModel = ViewModelProvider(this)[BillViewModel::class.java]
+        modelTotal = ViewModelProvider(this)[TotalViewModel::class.java]
         viewBillModel.listBill.observe(viewLifecycleOwner){
             billList = it
             recyclerMain()
@@ -57,6 +60,9 @@ class ListBillFragment : Fragment() {
     private fun recyclerMain(){
         recyclerSetup()
         editItem()
+    }
+
+    private fun getData(){
     }
 
     private fun recyclerSetup() : RecyclerView {

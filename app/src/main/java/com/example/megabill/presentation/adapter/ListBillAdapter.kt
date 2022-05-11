@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.megabill.databinding.BillItemBinding
 import com.example.megabill.domain.entities.Bill
 
-class ListBillAdapter(private var billList :MutableList<Bill>, private var billList2 :MutableList<Bill>) : RecyclerView.Adapter<ListBillAdapter.ListBillViewHolder>(){
+class ListBillAdapter(private var billList :MutableList<Bill>) : RecyclerView.Adapter<ListBillAdapter.ListBillViewHolder>(){
 
     var itemSelect : ((Bill)->Unit)? = null
 

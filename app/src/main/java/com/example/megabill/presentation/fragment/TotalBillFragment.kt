@@ -8,10 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.example.megabill.R
 import com.example.megabill.databinding.FragmentTotalBillBinding
 import com.example.megabill.domain.entities.Total
+import com.example.megabill.presentation.adapter.TotalBillAdapter
 import com.example.megabill.presentation.viewmodel.bill.BillViewModel
+import com.example.megabill.presentation.viewmodel.total.TotalViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -30,8 +33,9 @@ class TotalBillFragment : Fragment() {
     private var _bind : FragmentTotalBillBinding? = null
     private val bind : FragmentTotalBillBinding
     get() = _bind ?: throw RuntimeException("FragmentTotalBillBinding == null")
-    private var listTotal = mutableListOf<Total>()
-    private lateinit var modelBill : BillViewModel
+    private var listAllTotal = mutableListOf<Total>()
+    private lateinit var modelTotal : TotalViewModel
+    private lateinit var totalAdapter : TotalBillAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,13 +56,23 @@ class TotalBillFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        modelTotal = ViewModelProvider(this)[TotalViewModel::class.java]
+        modelTotal.listTotal.observe(viewLifecycleOwner){
+            listAllTotal = it
+            recyclerSetup()
+        }
         bind.bSaveBill.setOnClickListener {
             findNavController().navigate(R.id.action_totalBillFragment_to_startFragment)
         }
     }
 
-    fun getData(){
-
+    fun recyclerSetup() : RecyclerView{
+        val recycler = bind.recyclerTotal
+        with(recycler){
+            totalAdapter = TotalBillAdapter(listAllTotal)
+            adapter = totalAdapter
+        }
+        return recycler
     }
 
     companion object {
