@@ -47,12 +47,15 @@ class ListBillFragment : Fragment() {
         modelTotal = ViewModelProvider(this)[TotalViewModel::class.java]
         viewBillModel.listBill.observe(viewLifecycleOwner){
             billList = it
+/*            viewBillModel.deleteAllBillItem()
+            billList.clear()*/
             recyclerMain()
         }
         bind.fbAddItem.setOnClickListener {
             findNavController().navigate(R.id.action_listBillFragment_to_addItemFragment)
         }
         bind.bNextGoTotal.setOnClickListener {
+            setData()
             findNavController().navigate(R.id.action_listBillFragment_to_totalBillFragment)
         }
     }
@@ -62,7 +65,24 @@ class ListBillFragment : Fragment() {
         editItem()
     }
 
-    private fun getData(){
+    private fun setData(){
+        modelTotal.deleteAllTotal()
+        val maxIdName = billList.maxOf { idName -> idName.idName }
+        for (i in 0 .. maxIdName) {
+            var namePerson: String = ""
+            var listBuyProduct: String = ""
+            var totalSum: Int = 0
+            var totalSumToPerson: String = ""
+            billList.filter {
+                it.idName == i
+            }.map {
+                namePerson = it.name
+                listBuyProduct += "${it.item} - ${it.price} руб.\n"
+                totalSum += it.price
+                totalSumToPerson = "Итого: $totalSum руб."
+            }
+            modelTotal.addItemTotal(namePerson, listBuyProduct.trim(), totalSumToPerson, sumTips = "", totalSumWithTips = totalSumToPerson)
+        }
     }
 
     private fun recyclerSetup() : RecyclerView {

@@ -32,19 +32,19 @@
                 android:id="@+id/tvListProduct"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:gravity="center|start"
                 android:padding="4dp"
                 app:layout_constraintBottom_toTopOf="@+id/tvTotalSum"
                 app:layout_constraintEnd_toStartOf="@+id/tvTipsSum"
                 app:layout_constraintStart_toEndOf="@+id/tvNamePerson"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Список покупок" />
+                tools:text="Список покупок - 200 руб.\nСписок покупок - 200 руб.\n" />
 
             <TextView
                 android:id="@+id/tvTotalSum"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:gravity="center|start"
                 android:padding="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tvTotalWithTips"
@@ -55,8 +55,8 @@
             <TextView
                 android:id="@+id/tvTipsSum"
                 android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
+                android:layout_height="0dp"
+                android:gravity="center|start|bottom"
                 android:padding="4dp"
                 app:layout_constraintBottom_toTopOf="@+id/tvTotalWithTips"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -67,8 +67,8 @@
             <TextView
                 android:id="@+id/tvTotalWithTips"
                 android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
+                android:layout_height="0dp"
+                android:gravity="center|start|bottom"
                 android:padding="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

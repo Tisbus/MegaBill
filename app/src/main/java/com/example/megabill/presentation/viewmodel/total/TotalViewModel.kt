@@ -21,9 +21,9 @@ class TotalViewModel(application: Application) : AndroidViewModel(application) {
     fun addItemTotal(
         namePerson : String,
         listBuyProduct : String,
-        totalSumToPerson : Int,
-        sumTips : Int,
-        totalSumWithTips : Int
+        totalSumToPerson : String,
+        sumTips : String,
+        totalSumWithTips : String
     ){
         addTotalItemUseCase.addItemTotal(Total(namePerson, listBuyProduct, totalSumToPerson, sumTips, totalSumWithTips))
     }

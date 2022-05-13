@@ -1,19 +1,20 @@
 package com.example.megabill.presentation.fragment
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.megabill.R
 import com.example.megabill.databinding.FragmentTotalBillBinding
+import com.example.megabill.databinding.TotalItemBinding
 import com.example.megabill.domain.entities.Total
 import com.example.megabill.presentation.adapter.TotalBillAdapter
-import com.example.megabill.presentation.viewmodel.bill.BillViewModel
 import com.example.megabill.presentation.viewmodel.total.TotalViewModel
 
 // TODO: Rename parameter arguments, choose names that match
@@ -30,12 +31,28 @@ class TotalBillFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    private var _bind : FragmentTotalBillBinding? = null
-    private val bind : FragmentTotalBillBinding
-    get() = _bind ?: throw RuntimeException("FragmentTotalBillBinding == null")
+    private var _bind: FragmentTotalBillBinding? = null
+    private val bind: FragmentTotalBillBinding
+        get() = _bind ?: throw RuntimeException("FragmentTotalBillBinding == null")
     private var listAllTotal = mutableListOf<Total>()
-    private lateinit var modelTotal : TotalViewModel
-    private lateinit var totalAdapter : TotalBillAdapter
+    private lateinit var modelTotal: TotalViewModel
+    private lateinit var totalAdapter: TotalBillAdapter
+    private var _percentTips: Int? = null
+    private val percentTips: Int
+        get() = _percentTips ?: throw RuntimeException("percentTips == null")
+    private var _sumTip: Int? = null
+    private val sumTip: Int
+        get() = _sumTip ?: throw RuntimeException("sumTip == null")
+    private var _totalSum: Int? = null
+    private val totalSum: Int
+        get() = _totalSum ?: throw RuntimeException("totalSum == null")
+    private var _totalSumTipToPerson: Int? = null
+    private val totalSumTipToPerson: Int
+        get() = _totalSumTipToPerson ?: throw RuntimeException("totalSumWithTip == null")
+    private var _totalSumWithTip: Int? = null
+    private val totalSumWithTip: Int
+        get() = _totalSumWithTip ?: throw RuntimeException("totalSumWithTip == null")
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,23 +74,96 @@ class TotalBillFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         modelTotal = ViewModelProvider(this)[TotalViewModel::class.java]
-        modelTotal.listTotal.observe(viewLifecycleOwner){
+        modelTotal.listTotal.observe(viewLifecycleOwner) {
             listAllTotal = it
             recyclerSetup()
+            bind.tvSumBill.text = calculateTotalSum().toString()
         }
+        changeSwitchTip()
+        bind.bAcceptTip.setOnClickListener {
+            calculateTips()
+
+        }
+/*        getPercentTip()*/
         bind.bSaveBill.setOnClickListener {
             findNavController().navigate(R.id.action_totalBillFragment_to_startFragment)
         }
     }
 
-    fun recyclerSetup() : RecyclerView{
+    private fun calculateTips() {
+        var total: Int = calculateTotalSum()
+        _percentTips = bind.etTipsSize.text.toString().toInt()
+        _sumTip = total * percentTips / 100
+        _totalSumTipToPerson = sumTip / listAllTotal.size
+        _totalSumWithTip = total + sumTip
+        bind.tvSumBillWithTip.text = totalSumWithTip.toString()
+        for (item in 0 until listAllTotal.size) {
+            listAllTotal[item].sumTips = "${_totalSumTipToPerson.toString()} руб."
+            listAllTotal[item].totalSumWithTips =
+                "Итого: ${(totalSumTipToPerson + listAllTotal[item].totalSumToPerson.substring(7, listAllTotal[item].totalSumToPerson.length-5).toInt())} руб."
+        }
+        totalAdapter.notifyDataSetChanged()
+    }
+
+    private fun calculateTotalSum(): Int {
+        var total: Int = 0
+        for (i in 0 until listAllTotal.size) {
+            total += listAllTotal[i].totalSumToPerson.substring(
+                7,
+                listAllTotal[i].totalSumToPerson.length - 5
+            ).toInt()
+        }
+        return total
+    }
+
+/*    private fun getPercentTip() {
+        val textWatcher = object : TextWatcher {
+            override fun beforeTextChanged(
+                s: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
+               return
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                _percentTips = s.toString().toInt()
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                return
+            }
+        }
+        bind.etTipsSize.addTextChangedListener(textWatcher)
+    }*/
+
+    private fun changeSwitchTip() {
+        with(bind) {
+            swTips.setOnCheckedChangeListener { buttonView, isChecked ->
+                if (isChecked) {
+                    etTipsSize.visibility = View.VISIBLE
+                    bAcceptTip.visibility = View.VISIBLE
+                } else {
+                    etTipsSize.visibility = View.GONE
+                    bAcceptTip.visibility  = View.GONE
+                    bind.etTipsSize.setText("0")
+                    calculateTips()
+                    bind.tvSumBillWithTip.text = ""
+                }
+            }
+        }
+    }
+
+    private fun recyclerSetup(): RecyclerView {
         val recycler = bind.recyclerTotal
-        with(recycler){
+        with(recycler) {
             totalAdapter = TotalBillAdapter(listAllTotal)
             adapter = totalAdapter
         }
         return recycler
     }
+
 
     companion object {
         /**

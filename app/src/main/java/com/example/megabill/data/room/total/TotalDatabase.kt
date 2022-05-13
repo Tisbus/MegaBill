@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.megabill.domain.entities.Total
 
-@Database(entities = [Total::class], version = 1, exportSchema = false)
+@Database(entities = [Total::class], version = 2, exportSchema = false)
 abstract class TotalDatabase : RoomDatabase() {
 
     abstract fun totalDao(): TotalDao

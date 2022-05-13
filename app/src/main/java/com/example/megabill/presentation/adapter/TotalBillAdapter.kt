@@ -19,9 +19,9 @@ class TotalBillAdapter(private val totalList : MutableList<Total>) : RecyclerVie
         with(bind){
             tvNamePerson.text = itemTotal.namePerson
             tvListProduct.text = itemTotal.listBuyProduct
-            tvTotalSum.text = itemTotal.totalSumToPerson.toString()
-            tvTipsSum.text = itemTotal.sumTips.toString()
-            tvTotalWithTips.text = itemTotal.totalSumWithTips.toString()
+            tvTotalSum.text = itemTotal.totalSumToPerson
+            tvTipsSum.text = itemTotal.sumTips
+            tvTotalWithTips.text = itemTotal.totalSumWithTips
         }
     }
 

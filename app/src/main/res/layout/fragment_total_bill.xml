@@ -12,10 +12,9 @@
             android:id="@+id/tvTextTips"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="6dp"
+            android:padding="14dp"
             android:gravity="center"
             android:text="@string/need_tips"
-            app:layout_constraintBottom_toTopOf="@+id/relativeTitleTotal"
             app:layout_constraintEnd_toStartOf="@+id/swTips"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -26,8 +25,7 @@
             android:layout_height="wrap_content"
             android:text="@string/on_off"
             android:gravity="center"
-            app:layout_constraintBottom_toTopOf="@+id/relativeTitleTotal"
-            app:layout_constraintEnd_toStartOf="@+id/etTipsSize"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tvTextTips"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,14 +35,29 @@
             android:layout_height="wrap_content"
             android:hint="@string/percent_tips"
             android:inputType="numberDecimal"
-            android:padding="16dp"
+            android:padding="10dp"
             android:textSize="12sp"
-            android:visibility="invisible"
+            android:layout_margin="4dp"
+            android:visibility="gone"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toTopOf="@+id/relativeTitleTotal"
+            app:layout_constraintEnd_toStartOf="@+id/bAcceptTip"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTextTips"
+            tools:ignore="TextContrastCheck" />
+
+        <Button
+            android:id="@+id/bAcceptTip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_margin="4dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/relativeTitleTotal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/swTips"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="TextContrastCheck" />
+            app:layout_constraintStart_toEndOf="@+id/etTipsSize"
+            app:layout_constraintTop_toBottomOf="@+id/tvTextTips"
+            android:text="@string/accept" />
 
         <LinearLayout
             android:id="@+id/relativeTitleTotal"
@@ -58,7 +71,7 @@
 
             <TextView
                 android:id="@+id/tvTitleName"
-                android:layout_width="100dp"
+                android:layout_width="110dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:padding="4dp"
@@ -68,7 +81,7 @@
                 android:id="@+id/tvTitleListAndTotal"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="3"
                 android:gravity="center"
                 android:padding="4dp"
                 android:text="@string/title_list_total" />
@@ -114,12 +127,36 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="1.0"
                     tools:listitem="@layout/total_item">
-
                 </androidx.recyclerview.widget.RecyclerView>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 
+        <TextView
+            android:id="@+id/tvSumBill"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="4dp"
+            android:layout_marginTop="4dp"
+            tools:text="Сумма счёта: "
+            app:layout_constraintBottom_toTopOf="@+id/etNameOfParty"
+            app:layout_constraintEnd_toStartOf="@+id/tvSumBillWithTip"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/svTotal" />
+
+        <TextView
+            android:id="@+id/tvSumBillWithTip"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:text="С чаевыми: "
+            android:padding="4dp"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            app:layout_constraintBottom_toTopOf="@+id/bSaveBill"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvSumBill"
+            app:layout_constraintTop_toBottomOf="@+id/svTotal" />
         <EditText
             android:id="@+id/etNameOfParty"
             android:layout_width="wrap_content"

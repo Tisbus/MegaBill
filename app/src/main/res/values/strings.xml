@@ -19,7 +19,8 @@
     <string name="title_list_total">Список покупок / Итого сумма</string>
     <string name="title_tips_total">Чаевые / итого с чаевыми</string>
     <string name="name_party">Имя мероприятия</string>
-    <string name="on_off">Вкл / Выкл</string>
+    <string name="on_off">Выкл / Вкл</string>
     <string name="need_tips">Нужны ли чаевые?</string>
     <string name="percent_tips">Процент чаевых</string>
+    <string name="accept">подтвердить</string>
 </resources>
