@@ -1,8 +1,6 @@
 package com.example.megabill.presentation.fragment
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +10,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.megabill.R
 import com.example.megabill.databinding.FragmentTotalBillBinding
-import com.example.megabill.databinding.TotalItemBinding
 import com.example.megabill.domain.entities.Total
 import com.example.megabill.presentation.adapter.TotalBillAdapter
+import com.example.megabill.presentation.viewmodel.bill.BillViewModel
+import com.example.megabill.presentation.viewmodel.history.BillHistoryViewModel
+import com.example.megabill.presentation.viewmodel.person.PersonViewModel
 import com.example.megabill.presentation.viewmodel.total.TotalViewModel
+import java.text.SimpleDateFormat
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,6 +38,9 @@ class TotalBillFragment : Fragment() {
         get() = _bind ?: throw RuntimeException("FragmentTotalBillBinding == null")
     private var listAllTotal = mutableListOf<Total>()
     private lateinit var modelTotal: TotalViewModel
+    private lateinit var modelHistory: BillHistoryViewModel
+    private lateinit var modelPerson: PersonViewModel
+    private lateinit var modelBill: BillViewModel
     private lateinit var totalAdapter: TotalBillAdapter
     private var _percentTips: Int? = null
     private val percentTips: Int
@@ -43,9 +48,6 @@ class TotalBillFragment : Fragment() {
     private var _sumTip: Int? = null
     private val sumTip: Int
         get() = _sumTip ?: throw RuntimeException("sumTip == null")
-    private var _totalSum: Int? = null
-    private val totalSum: Int
-        get() = _totalSum ?: throw RuntimeException("totalSum == null")
     private var _totalSumTipToPerson: Int? = null
     private val totalSumTipToPerson: Int
         get() = _totalSumTipToPerson ?: throw RuntimeException("totalSumWithTip == null")
@@ -73,11 +75,16 @@ class TotalBillFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        bind.etTipsSize.setText("0")
         modelTotal = ViewModelProvider(this)[TotalViewModel::class.java]
+        modelHistory = ViewModelProvider(this)[BillHistoryViewModel::class.java]
+        modelPerson = ViewModelProvider(this)[PersonViewModel::class.java]
+        modelBill = ViewModelProvider(this)[BillViewModel::class.java]
         modelTotal.listTotal.observe(viewLifecycleOwner) {
             listAllTotal = it
             recyclerSetup()
-            bind.tvSumBill.text = calculateTotalSum().toString()
+            bind.tvSumBill.text =
+                String.format("%s %s %s", "Сумма счёта:", calculateTotalSum().toString(), "руб.")
         }
         changeSwitchTip()
         bind.bAcceptTip.setOnClickListener {
@@ -86,21 +93,44 @@ class TotalBillFragment : Fragment() {
         }
 /*        getPercentTip()*/
         bind.bSaveBill.setOnClickListener {
+            saveDataToBillHistory()
+            deleteAllTable()
             findNavController().navigate(R.id.action_totalBillFragment_to_startFragment)
         }
     }
 
+    private fun deleteAllTable() {
+        modelPerson.deleteAllPersonItem()
+        modelBill.deleteAllBillItem()
+        modelTotal.deleteAllTotal()
+    }
+
+    private fun saveDataToBillHistory() {
+        val sdf = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+        val data = sdf.format(Date())
+        val partyName = bind.etNameOfParty.text.toString()
+        val totalSum = calculateTotalSum().toString()
+        val totalSumWithTips = totalSumWithTip.toString().ifEmpty {""}
+        modelHistory.addBillHistoryItem(data, partyName, listAllTotal, totalSum, totalSumWithTips)
+    }
+
     private fun calculateTips() {
-        var total: Int = calculateTotalSum()
+        val total: Int = calculateTotalSum()
         _percentTips = bind.etTipsSize.text.toString().toInt()
         _sumTip = total * percentTips / 100
         _totalSumTipToPerson = sumTip / listAllTotal.size
         _totalSumWithTip = total + sumTip
-        bind.tvSumBillWithTip.text = totalSumWithTip.toString()
+        bind.tvSumBillWithTip.text =
+            String.format("%s %s %s", "С чаевыми", totalSumWithTip.toString(), "руб.")
         for (item in 0 until listAllTotal.size) {
             listAllTotal[item].sumTips = "${_totalSumTipToPerson.toString()} руб."
             listAllTotal[item].totalSumWithTips =
-                "Итого: ${(totalSumTipToPerson + listAllTotal[item].totalSumToPerson.substring(7, listAllTotal[item].totalSumToPerson.length-5).toInt())} руб."
+                "Итого: ${
+                    (totalSumTipToPerson + listAllTotal[item].totalSumToPerson.substring(
+                        7,
+                        listAllTotal[item].totalSumToPerson.length - 5
+                    ).toInt())
+                } руб."
         }
         totalAdapter.notifyDataSetChanged()
     }
@@ -146,7 +176,7 @@ class TotalBillFragment : Fragment() {
                     bAcceptTip.visibility = View.VISIBLE
                 } else {
                     etTipsSize.visibility = View.GONE
-                    bAcceptTip.visibility  = View.GONE
+                    bAcceptTip.visibility = View.GONE
                     bind.etTipsSize.setText("0")
                     calculateTips()
                     bind.tvSumBillWithTip.text = ""

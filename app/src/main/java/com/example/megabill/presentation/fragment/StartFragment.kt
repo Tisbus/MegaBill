@@ -5,9 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.megabill.R
 import com.example.megabill.databinding.FragmentStartBinding
+import com.example.megabill.presentation.viewmodel.history.BillHistoryViewModel
 import java.lang.RuntimeException
 
 // TODO: Rename parameter arguments, choose names that match
@@ -29,6 +31,7 @@ class StartFragment : Fragment() {
     private val bind : FragmentStartBinding
     get() = _bind ?: throw RuntimeException("FragmentStartBinding == null")
 
+    private lateinit var modelHistory : BillHistoryViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +52,10 @@ class StartFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        modelHistory = ViewModelProvider(this)[BillHistoryViewModel::class.java]
+        bind.buttonDeleteAll.setOnClickListener {
+            modelHistory.deleteAllBillHistory()
+        }
         bind.flButtonAddNewBill.setOnClickListener {
             findNavController().navigate(R.id.action_startFragment_to_addPersonFragment)
         }

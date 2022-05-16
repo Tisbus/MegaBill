@@ -81,7 +81,7 @@ class ListBillFragment : Fragment() {
                 totalSum += it.price
                 totalSumToPerson = "Итого: $totalSum руб."
             }
-            modelTotal.addItemTotal(namePerson, listBuyProduct.trim(), totalSumToPerson, sumTips = "", totalSumWithTips = totalSumToPerson)
+            modelTotal.addItemTotal(namePerson, listBuyProduct.trim(), totalSumToPerson, sumTips = "", totalSumWithTips = "")
         }
     }
 

@@ -5,9 +5,15 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "bill_history")
 data class BillHistory(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int,
     val data: String,
     val partyName: String,
-    val totalSum: Int
-)
+    val itemProduct: List<Total>,
+    val totalSum: String,
+    val totalSumWithTip: String,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = UNDEFINED_ID
+) {
+    companion object {
+        private const val UNDEFINED_ID = 0
+    }
+}
