@@ -24,4 +24,6 @@
     <string name="percent_tips">Процент чаевых</string>
     <string name="accept">подтвердить</string>
     <string name="float_button_add">fButtonAdd</string>
+    <string name="b_back">Назад</string>
+    <string name="b_share">Поделиться</string>
 </resources>

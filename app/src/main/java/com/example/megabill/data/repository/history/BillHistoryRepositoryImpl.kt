@@ -23,4 +23,8 @@ class BillHistoryRepositoryImpl(application: Application) : HistoryRepository {
     override fun deleteAllBillHistory() {
         db.deleteAllBillHistory()
     }
+
+    override fun getBillHistoryItem(itemId: Int) : BillHistory{
+       return  db.getBillHistoryItem(itemId)
+    }
 }

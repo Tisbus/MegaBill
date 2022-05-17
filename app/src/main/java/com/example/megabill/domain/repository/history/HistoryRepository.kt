@@ -5,6 +5,7 @@ import com.example.megabill.domain.entities.BillHistory
 
 interface HistoryRepository {
      fun getBillHistoryList() : LiveData<MutableList<BillHistory>>
+     fun getBillHistoryItem(itemId : Int) : BillHistory
      fun addBillHistoryItem(item : BillHistory)
      fun deleteBillHistoryItem(itemId : Int)
      fun deleteAllBillHistory()
