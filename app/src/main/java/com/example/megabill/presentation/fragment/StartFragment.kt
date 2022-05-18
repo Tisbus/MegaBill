@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.megabill.R
 import com.example.megabill.databinding.FragmentStartBinding
@@ -61,7 +62,9 @@ class StartFragment : Fragment() {
         modelHistory = ViewModelProvider(this)[BillHistoryViewModel::class.java]
         modelHistory.listBillHistory.observe(viewLifecycleOwner){
             listStartBill = it
-            recyclerMain()
+            setupRecycler()
+            itemDeleteTouch()
+            goDetailHistoryItem()
         }
         bind.buttonDeleteAll.setOnClickListener {
             modelHistory.deleteAllBillHistory()
@@ -71,9 +74,22 @@ class StartFragment : Fragment() {
         }
     }
 
-    private fun recyclerMain(){
-        setupRecycler()
-        goDetailHistoryItem()
+    private fun itemDeleteTouch() {
+            val itemDeleteTouchCallback = object :
+                ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean {
+                    return false
+                }
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    modelHistory.deleteBillHistoryItem(listStartBill[viewHolder.adapterPosition].id)
+                }
+            }
+            val itemDeleteTouchHelper = ItemTouchHelper(itemDeleteTouchCallback)
+            itemDeleteTouchHelper.attachToRecyclerView(setupRecycler())
     }
 
     private fun goDetailHistoryItem(){
@@ -91,6 +107,8 @@ class StartFragment : Fragment() {
         }
         return recycler
     }
+
+
 
     companion object {
         private const val ARG_ITEM_ID = "itemId"
