@@ -5,6 +5,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/main_background"
     tools:context=".presentation.fragment.AddPersonFragment">
 
     <TextView
@@ -13,8 +14,11 @@
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
         android:padding="4dp"
+        android:gravity="center"
         android:text="@string/add_persons_name"
         android:textSize="25sp"
+        android:background="#ffffff"
+        android:backgroundTint="#ffffff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -36,12 +40,25 @@
         android:text="@string/add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rlPerson" />
+
+    <ImageView
+        android:id="@+id/ivCloudPersonHelp"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:visibility="visible"
+        android:contentDescription="@string/cloud_person"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bAddNewPerson"
+        app:srcCompat="@drawable/cloud_person" />
+
     <Button
         android:id="@+id/bNextGoBillList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/b_next"
         android:layout_marginBottom="40dp"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

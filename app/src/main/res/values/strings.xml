@@ -26,4 +26,10 @@
     <string name="float_button_add">fButtonAdd</string>
     <string name="b_back">Назад</string>
     <string name="b_share">Поделиться</string>
+    <string name="logo_splash">logo_splash</string>
+    <string name="total_sum">Сумма</string>
+    <string name="data">Дата</string>
+    <string name="name">Название</string>
+    <string name="cloud_help_start">cloud_help_start</string>
+    <string name="cloud_person">cloud_person</string>
 </resources>

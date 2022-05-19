@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
         android:orientation="vertical"
+        android:background="#ffffff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -28,6 +29,7 @@
             android:id="@+id/bDeletePerson"
             android:layout_width="50dp"
             android:layout_height="42dp"
+            android:layout_marginEnd="4dp"
             android:layout_alignParentEnd="true"
             android:text="@string/delete" />
 

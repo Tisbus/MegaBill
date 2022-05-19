@@ -1,7 +1,6 @@
 package com.example.megabill.presentation.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,38 +15,20 @@ import com.example.megabill.databinding.FragmentAddPersonBinding
 import com.example.megabill.domain.entities.Person
 import com.example.megabill.presentation.viewmodel.person.PersonViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [AddPersonFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class AddPersonFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
     private var _bind: FragmentAddPersonBinding? = null
     private val bind: FragmentAddPersonBinding
         get() = _bind ?: throw RuntimeException("FragmentAddPersonBinding == null")
 
-    lateinit var viewModel : PersonViewModel
+    lateinit var viewModel: PersonViewModel
 
-    private var listPerson : MutableList<Person> = mutableListOf()
+    private var listPerson: MutableList<Person> = mutableListOf()
 
-    private var listPersonView : MutableList<View> = mutableListOf()
+    private var listPersonView: MutableList<View> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-        Log.i("check", "stage 2")
     }
 
     override fun onCreateView(
@@ -62,13 +43,15 @@ class AddPersonFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[PersonViewModel::class.java]
-        viewModel.listPerson.observe(viewLifecycleOwner){
+        viewModel.listPerson.observe(viewLifecycleOwner) {
             clearData()
             listPerson = it
             loadViewPerson()
+            checkAllButton()
         }
         bind.bAddNewPerson.setOnClickListener {
             addNewEditText()
+            checkAllButton()
         }
         bind.bNextGoBillList.setOnClickListener {
             saveNameToDb()
@@ -78,30 +61,57 @@ class AddPersonFragment : Fragment() {
 
     }
 
-    private fun clearData(){
+    private fun checkSizeListPerson() {
+        with(bind) {
+            if (listPersonView.size > 5) {
+                ivCloudPersonHelp.visibility = View.GONE
+            } else {
+                ivCloudPersonHelp.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    private fun checkAllButton(){
+        checkCanNextStep()
+        checkSizeListPerson()
+    }
+
+    private fun checkCanNextStep() {
+        with(bind) {
+            if (listPersonView.isNotEmpty()) {
+                bNextGoBillList.visibility = View.VISIBLE
+            } else {
+                bNextGoBillList.visibility = View.INVISIBLE
+            }
+        }
+    }
+
+    private fun clearData() {
         listPerson.clear()
         listPersonView.clear()
         bind.rlPerson.removeAllViews()
     }
 
-    private fun loadViewPerson(){
-        for (item in listPerson){
+    private fun loadViewPerson() {
+        for (item in listPerson) {
             val view = layoutInflater.inflate(R.layout.add_new_person, null)
             view.findViewById<EditText>(R.id.etPersonName).setText(item.name)
             val bDelete = view.findViewById<Button>(R.id.bDeletePerson)
             bDelete.setOnClickListener {
                 (view.parent as LinearLayout).removeView(view)
                 listPersonView.remove(view)
+                checkAllButton()
             }
             bind.rlPerson.addView(view)
             listPersonView.add(view)
+            checkAllButton()
         }
     }
 
-    private fun saveNameToDb(){
+    private fun saveNameToDb() {
         viewModel.deleteAllPersonItem()
         var id = Person.UNDEFINED_ID
-        for(item in listPersonView){
+        for (item in listPersonView) {
             val name = item.findViewById<EditText>(R.id.etPersonName).text.toString()
             viewModel.addPersonItem(id++, name)
         }
@@ -114,28 +124,9 @@ class AddPersonFragment : Fragment() {
         bDelete.setOnClickListener {
             (view.parent as LinearLayout).removeView(view)
             listPersonView.remove(view)
+            checkAllButton()
         }
         bind.rlPerson.addView(view)
         listPersonView.add(view)
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AddPersonFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AddPersonFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
     }
 }

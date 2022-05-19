@@ -6,17 +6,75 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/main_background"
         tools:context=".presentation.fragment.StartFragment">
 
+        <TextView
+            android:id="@+id/tvTitleNameParty"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="#0E7512"
+            android:backgroundTint="#0E7512"
+            android:gravity="start"
+            android:paddingStart="30dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="8dp"
+            android:text="@string/name"
+            android:textColor="#ffffff"
+            android:textAllCaps="true"
+            android:textSize="14sp"
+            android:textStyle="normal"
+            app:layout_constraintEnd_toStartOf="@+id/tvTitleTotalSum"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvTitleTotalSum"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="#3D9640"
+            android:backgroundTint="#3D9640"
+            android:gravity="center"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:text="@string/total_sum"
+            android:textColor="#ffffff"
+            android:textAllCaps="true"
+            android:textSize="14sp"
+            android:textStyle="normal"
+            app:layout_constraintEnd_toStartOf="@+id/tvTitleDate"
+            app:layout_constraintStart_toEndOf="@+id/tvTitleNameParty"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvTitleDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="#69BD6D"
+            android:backgroundTint="#69BD6D"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="@string/data"
+            android:textColor="#ffffff"
+            android:textAllCaps="true"
+            android:textSize="14sp"
+            android:textStyle="normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvTitleTotalSum"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ScrollView
+            android:id="@+id/svBillHistory"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
+            android:visibility="invisible"
             app:layout_constrainedHeight="true"
             app:layout_constraintBottom_toTopOf="@+id/buttonDeleteAll"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/tvTitleTotalSum">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerMain"
@@ -30,6 +88,17 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:listitem="@layout/start_item" />
         </ScrollView>
+
+        <ImageView
+            android:id="@+id/iwCloudStartHelp"
+            android:contentDescription="@string/cloud_help_start"
+            android:layout_width="wrap_content"
+            android:layout_height="450dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/start_cloud" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/flButtonAddNewBill"
@@ -50,5 +119,6 @@
             android:text="Delete History"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
