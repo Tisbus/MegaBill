@@ -32,4 +32,5 @@
     <string name="name">Название</string>
     <string name="cloud_help_start">cloud_help_start</string>
     <string name="cloud_person">cloud_person</string>
+    <string name="cloud_bill">cloud_bill</string>
 </resources>

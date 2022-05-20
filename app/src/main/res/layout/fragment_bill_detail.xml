@@ -2,92 +2,163 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-<data>
-    <variable
-        name="history"
-        type="com.example.megabill.presentation.viewmodel.history.BillHistoryViewModel" />
-</data>
-    <androidx.cardview.widget.CardView
+
+    <data>
+
+        <variable
+            name="history"
+            type="com.example.megabill.presentation.viewmodel.history.BillHistoryViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="4dp"
+        android:background="@drawable/main_background"
         tools:context=".presentation.fragment.BillDetailFragment">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+
+        <TextView
+            android:id="@+id/tvNamePartyDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="#E8447C"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="@{history.getItemHistoryLD.partyName}"
+            android:textColor="#fff"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Крутая вечеринка" />
+
+        <TextView
+            android:id="@+id/tvDateDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="#fff"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="@{history.getItemHistoryLD.data}"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@+id/tvTotalSumWithTipDetail"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvNamePartyDetail"
+            tools:text="Дата: 17.05.2022 г." />
+
+        <TextView
+            android:id="@+id/tvTotalSumWithTipDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="#fff"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="@{history.getItemHistoryLD.totalSumWithTip}"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvDateDetail"
+            app:layout_constraintTop_toBottomOf="@+id/tvNamePartyDetail"
+            tools:text="Итого: 4565 руб." />
+
+        <LinearLayout
+            android:id="@+id/relativeTitleTotal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-
-            <TextView
-                android:id="@+id/tvNamePartyDetail"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="4dp"
-                android:textSize="14sp"
-                android:text="@{history.getItemHistoryLD.partyName}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Крутая вечеринка" />
+            android:layout_height="wrap_content"
+            android:background="#fff"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvDateDetail">
 
             <TextView
-                android:id="@+id/tvDateDetail"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:padding="4dp"
-                android:textSize="14sp"
+                android:id="@+id/tvTitleName"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:background="#0E7512"
+                android:backgroundTint="#0E7512"
                 android:gravity="center"
-                android:text="@{history.getItemHistoryLD.data}"
-                tools:text="Дата: 17.05.2022 г."
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/tvTotalSumWithTipDetail"
-                app:layout_constraintTop_toBottomOf="@+id/tvNamePartyDetail" />
+                android:padding="4dp"
+                android:text="@string/name_title_total"
+                android:textColor="#ffffff"
+                android:textSize="14sp"
+                android:textStyle="normal" />
 
             <TextView
-                android:id="@+id/tvTotalSumWithTipDetail"
+                android:id="@+id/tvTitleListAndTotal"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:padding="4dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:background="#3D9640"
+                android:backgroundTint="#3D9640"
                 android:gravity="center"
+                android:padding="4dp"
+                android:text="@string/title_list_total"
+                android:textColor="#ffffff"
                 android:textSize="14sp"
-                tools:text="Итого: 4565 руб."
-                android:text="@{history.getItemHistoryLD.totalSumWithTip}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tvDateDetail"
-                app:layout_constraintTop_toBottomOf="@+id/tvNamePartyDetail" />
+                android:textStyle="normal" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerDetail"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constrainedHeight="true"
-                android:padding="8dp"
-                tools:listitem="@layout/total_item"
-                android:layout_marginBottom="8dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toTopOf="@+id/bBack"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvDateDetail" />
+            <TextView
+                android:id="@+id/tvTitleTipsAndTotal"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:background="#69BD6D"
+                android:backgroundTint="#69BD6D"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="@string/title_tips_total"
+                android:textColor="#ffffff"
+                android:textSize="14sp"
+                android:textStyle="normal" />
+        </LinearLayout>
 
-            <Button
-                android:id="@+id/bBack"
-                android:layout_width="wrap_content"
+        <ScrollView
+            android:id="@+id/svTotal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintBottom_toTopOf="@+id/bBack"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/relativeTitleTotal">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:text="@string/b_back"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="parent">
 
-            <Button
-                android:id="@+id/bShare"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:text="@string/b_share"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerDetail"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:listitem="@layout/total_item" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+        <Button
+            android:id="@+id/bBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="@string/b_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/bShare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="@string/b_share"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

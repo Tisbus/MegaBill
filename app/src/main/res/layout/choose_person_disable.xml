@@ -14,6 +14,8 @@
         android:hint="@string/test_name"
         android:textColor="#000"
         android:textSize="18sp"
+        android:textAllCaps="true"
+        android:padding="4dp"
         android:layout_margin="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -1,15 +1,12 @@
 package com.example.megabill.presentation.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.megabill.R
@@ -18,42 +15,24 @@ import com.example.megabill.domain.entities.Person
 import com.example.megabill.presentation.adapter.ChoosePersonAdapter
 import com.example.megabill.presentation.viewmodel.bill.BillViewModel
 import com.example.megabill.presentation.viewmodel.person.PersonViewModel
-import java.lang.RuntimeException
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [AddItemFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class AddItemFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    private lateinit var billViewModel : BillViewModel
-    private lateinit var personViewModel : PersonViewModel
-    private lateinit var adapterChoosePerson : ChoosePersonAdapter
-    private var choosePersonList : MutableList<Person> = mutableListOf()
-    private lateinit var namePerson : String
-    private var _nameId : Int? = null
-    private val nameId : Int
-    get() = _nameId ?: throw RuntimeException("_nameId == null")
+    private lateinit var billViewModel: BillViewModel
+    private lateinit var personViewModel: PersonViewModel
+    private lateinit var adapterChoosePerson: ChoosePersonAdapter
+    private var choosePersonList: MutableList<Person> = mutableListOf()
+    private lateinit var namePerson: String
+    private var _nameId: Int? = null
+    private val nameId: Int
+        get() = _nameId ?: throw RuntimeException("_nameId == null")
 
-    private var _bind : FragmentAddItemBinding? = null
-    private val bind : FragmentAddItemBinding
-    get() = _bind ?: throw RuntimeException("FragmentAddItemBinding == null")
+    private var _bind: FragmentAddItemBinding? = null
+    private val bind: FragmentAddItemBinding
+        get() = _bind ?: throw RuntimeException("FragmentAddItemBinding == null")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
@@ -69,7 +48,7 @@ class AddItemFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         billViewModel = ViewModelProvider(this)[BillViewModel::class.java]
         personViewModel = ViewModelProvider(this)[PersonViewModel::class.java]
-        personViewModel.listPerson.observe(viewLifecycleOwner){
+        personViewModel.listPerson.observe(viewLifecycleOwner) {
             choosePersonList = it
             setupRecyclerView()
             itemSelect()
@@ -82,40 +61,21 @@ class AddItemFragment : Fragment() {
         }
     }
 
-    private fun setupRecyclerView() : RecyclerView{
+    private fun setupRecyclerView(): RecyclerView {
         val recyclerView = bind.recyclerPerson
-        with(recyclerView){
+        with(recyclerView) {
             adapterChoosePerson = ChoosePersonAdapter(choosePersonList)
             adapter = adapterChoosePerson
         }
         return recyclerView
     }
-    private fun itemSelect(){
+
+    private fun itemSelect() {
         adapterChoosePerson.onSelectItem = {
             namePerson = it.name
             _nameId = it.id
             it.status = true
             Toast.makeText(activity, "Name is ${it.name}", Toast.LENGTH_SHORT).show()
         }
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AddItemFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AddItemFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
     }
 }

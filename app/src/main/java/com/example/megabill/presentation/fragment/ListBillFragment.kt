@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -49,8 +48,8 @@ class ListBillFragment : Fragment() {
         viewBillModel.listBill.observe(viewLifecycleOwner) {
             billList = it
             recyclerMain()
-/*            viewBillModel.deleteAllBillItem()
-            billList.clear()*/
+            checkSizeBillListNextButton()
+            checkSizeBillListAddButton()
         }
         bind.fbAddItem.setOnClickListener {
             findNavController().navigate(R.id.action_listBillFragment_to_addItemFragment)
@@ -78,6 +77,25 @@ class ListBillFragment : Fragment() {
         }
         val itemTouchDelete = ItemTouchHelper(itemTouchDeleteCallback)
         itemTouchDelete.attachToRecyclerView(recyclerSetup())
+    }
+
+    private fun checkSizeBillListNextButton(){
+        with(bind){
+            if(billList.isNotEmpty()){
+                bNextGoTotal.visibility = View.VISIBLE
+            }else{
+                bNextGoTotal.visibility = View.INVISIBLE
+            }
+        }
+    }
+    private fun checkSizeBillListAddButton(){
+        with(bind){
+            if(billList.size > 10){
+                ivCloudBillHelp.visibility = View.GONE
+            }else{
+                ivCloudBillHelp.visibility = View.VISIBLE
+            }
+        }
     }
 
     private fun recyclerMain() {
@@ -129,7 +147,6 @@ class ListBillFragment : Fragment() {
 
     private fun editItem() {
         billAdapter.itemSelect = {
-            Toast.makeText(activity, "${it.id}", Toast.LENGTH_SHORT).show()
             val bundle = bundleOf(ARG_ITEM_ID to it.id)
             findNavController().navigate(R.id.action_listBillFragment_to_editItemFragment, bundle)
         }

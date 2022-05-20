@@ -33,7 +33,7 @@ class ListBillAdapter(private var billList :MutableList<Bill>) : RecyclerView.Ad
         fun bindItem(bill : Bill){
             bind.tvName.text = bill.name
             bind.tvItem.text = bill.item
-            bind.tvPrice.text = bill.price.toString()
+            bind.tvPrice.text = String.format("%s руб.", bill.price.toString())
         }
     }
 }

@@ -19,18 +19,7 @@ import com.example.megabill.presentation.viewmodel.total.TotalViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [TotalBillFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class TotalBillFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
     private var _bind: FragmentTotalBillBinding? = null
@@ -58,10 +47,6 @@ class TotalBillFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
@@ -91,7 +76,6 @@ class TotalBillFragment : Fragment() {
             calculateTips()
 
         }
-/*        getPercentTip()*/
         bind.bSaveBill.setOnClickListener {
             saveDataToBillHistory()
             deleteAllTable()
@@ -109,8 +93,8 @@ class TotalBillFragment : Fragment() {
         val sdf = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
         val data = sdf.format(Date())
         val partyName = bind.etNameOfParty.text.toString()
-        val totalSum = calculateTotalSum().toString()
-        val totalSumWithTips = totalSumWithTip.toString().ifEmpty {""}
+        val totalSum = String.format("%s руб.", calculateTotalSum().toString())
+        val totalSumWithTips = String.format("%s руб.", totalSumWithTip.toString()).ifEmpty { "" }
         modelHistory.addBillHistoryItem(data, partyName, listAllTotal, totalSum, totalSumWithTips)
     }
 
@@ -146,28 +130,6 @@ class TotalBillFragment : Fragment() {
         return total
     }
 
-/*    private fun getPercentTip() {
-        val textWatcher = object : TextWatcher {
-            override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
-            ) {
-               return
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                _percentTips = s.toString().toInt()
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                return
-            }
-        }
-        bind.etTipsSize.addTextChangedListener(textWatcher)
-    }*/
-
     private fun changeSwitchTip() {
         with(bind) {
             swTips.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -192,26 +154,5 @@ class TotalBillFragment : Fragment() {
             adapter = totalAdapter
         }
         return recycler
-    }
-
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment TotalBillFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            TotalBillFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
     }
 }
