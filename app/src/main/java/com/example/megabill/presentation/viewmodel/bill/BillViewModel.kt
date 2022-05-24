@@ -23,6 +23,13 @@ class BillViewModel(application: Application) : AndroidViewModel(application) {
     val getBillItemLD :LiveData<Bill>
     get() = _getBillItemLD
 
+    private val _checkErrorItemName = MutableLiveData<Boolean>()
+    val checkErrorItemName : LiveData<Boolean>
+    get() = _checkErrorItemName
+
+    private val _checkErrorPrice = MutableLiveData<Boolean>()
+    val checkErrorPrice : LiveData<Boolean>
+    get() = _checkErrorPrice
 
     val listBill = getBillListUseCase.getBillList()
 
@@ -30,9 +37,14 @@ class BillViewModel(application: Application) : AndroidViewModel(application) {
         name : String,
         nameId : Int,
         item : String,
-        price : Int
+        price : String
     ){
-        addBillItemUseCase.addBillItem(Bill(name, nameId, item, price))
+        val nameItem = inputItem(item)
+        val priceItem = inputPrice(price)
+        if(checkErrorItem(nameItem, priceItem)){
+            val result = Bill(name, nameId, nameItem, priceItem)
+            addBillItemUseCase.addBillItem(result)
+        }
     }
 
     fun getBillItem(itemId : Int){
@@ -48,16 +60,57 @@ class BillViewModel(application: Application) : AndroidViewModel(application) {
         deleteBillItemUseCase.deleteBillItem(itemId)
     }
 
-    fun editBillItem(name : String, nameId : Int, item : String,  price : Int){
+    fun editBillItem(name : String, nameId : Int, item : String,  price : String){
         _getBillItemLD.value?.let{
-            val itemBill = it.copy(
-                name = name,
-                idName = nameId,
-                item = item,
-                price = price
-            )
-            editBillItemUseCase.editBillItem(itemBill)
+            val nameItem = inputItem(item)
+            val priceItem = inputPrice(price)
+            if(checkErrorItem(nameItem, priceItem)) {
+                val itemBill = it.copy(
+                    name = name,
+                    idName = nameId,
+                    item = nameItem,
+                    price = priceItem
+                )
+                editBillItemUseCase.editBillItem(itemBill)
+            }
         }
+    }
 
+    private fun inputItem(inputItem: String?): String {
+        return inputItem?.trim() ?: ""
+    }
+
+    private fun inputPrice(inputPrice: String?): Int {
+        return try {
+            inputPrice?.trim()?.toInt() ?: 0
+        } catch (
+            e: Exception
+        ) {
+            0
+        }
+    }
+
+    private fun checkErrorItem(item : String, price : Int) : Boolean{
+        var result = true
+        if(item.isBlank()){
+            _checkErrorItemName.value = true
+                result = false
+        }else{
+            _checkErrorItemName.value = false
+        }
+        if(price <= 0){
+            _checkErrorPrice.value = true
+            result = false
+        }else{
+            _checkErrorPrice.value = false
+        }
+        return result
+    }
+
+    fun resetCheckErrorName(){
+        _checkErrorItemName.value = false
+    }
+    fun resetCheckErrorPrice(){
+        _checkErrorPrice.value = false
     }
 }

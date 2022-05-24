@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -67,13 +68,17 @@ class EditItemFragment : Fragment() {
 
     private fun saveEditBill() {
         bind.bEditItem.setOnClickListener {
-            with(bind) {
-                val item = etItemName.text.toString()
-                val price = etPrice.text.toString().toInt()
-                viewBillModel.editBillItem(namePerson, nameId, item, price)
+            val item = bind.etItemName.text.toString()
+            val price = bind.etPrice.text.toString()
+            viewBillModel.editBillItem(namePerson, nameId, item, price)
+            if(checkError(item, price)){
+                findNavController().navigate(R.id.action_editItemFragment_to_listBillFragment)
             }
-            findNavController().navigate(R.id.action_editItemFragment_to_listBillFragment)
         }
+    }
+
+    private fun checkError(item : String, price : String) : Boolean{
+        return item.isNotBlank() && price.toInt() >= 0
     }
 
     private fun setupRecycler(): RecyclerView {
@@ -81,6 +86,8 @@ class EditItemFragment : Fragment() {
         with(recycler) {
             adapterChoosePerson = ChoosePersonAdapter(choosePersonList)
             adapter = adapterChoosePerson
+            bind.viewBill = viewBillModel
+            bind.lifecycleOwner = viewLifecycleOwner
         }
         return recycler
     }
@@ -90,6 +97,9 @@ class EditItemFragment : Fragment() {
             _nameId = it.id
             namePerson = it.name
             it.status = true
+            choosePersonList.filter { i -> i.id != it.id}.map { i -> i.status = false }
+            adapterChoosePerson.notifyDataSetChanged()
+            Toast.makeText(activity, "Name is ${it.name}", Toast.LENGTH_SHORT).show()
         }
     }
 
