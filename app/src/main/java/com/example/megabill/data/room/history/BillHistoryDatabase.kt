@@ -32,7 +32,6 @@ abstract class BillHistoryDatabase : RoomDatabase() {
                     BillHistoryDatabase::class.java, DB_NAME
                 )
                     .fallbackToDestructiveMigration()
-                    .allowMainThreadQueries()
                     .build()
                 INSTANCE = db
                 return db

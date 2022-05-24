@@ -62,8 +62,8 @@ class EditItemFragment : Fragment() {
             choosePersonList = it
             setupRecycler()
             itemSelect()
+            saveEditBill()
         }
-        saveEditBill()
     }
 
     private fun saveEditBill() {

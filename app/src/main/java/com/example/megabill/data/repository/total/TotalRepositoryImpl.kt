@@ -12,11 +12,11 @@ class TotalRepositoryImpl(application: Application) : TotalRepository {
 
     override fun getTotalList(): LiveData<MutableList<Total>> = db.getListTotal()
 
-    override fun addTotalItem(item: Total) {
+    override suspend fun addTotalItem(item: Total) {
         db.insertItem(item)
     }
 
-    override fun deleteAllTotal() {
+    override suspend fun deleteAllTotal() {
         db.deleteAllTotal()
     }
 }

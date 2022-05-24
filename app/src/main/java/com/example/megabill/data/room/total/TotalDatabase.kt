@@ -25,7 +25,6 @@ abstract class TotalDatabase : RoomDatabase() {
                     return it
                 }
                 val db = Room.databaseBuilder(application, TotalDatabase::class.java, DB_NAME)
-                    .allowMainThreadQueries()
                     .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = db

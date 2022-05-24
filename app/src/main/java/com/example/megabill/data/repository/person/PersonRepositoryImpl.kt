@@ -12,11 +12,11 @@ class PersonRepositoryImpl(application: Application) : PersonRepository {
 
     override fun getPersonList(): LiveData<MutableList<Person>> = db.getPersonList()
 
-    override fun addPersonItem(item: Person) {
+    override suspend fun addPersonItem(item: Person) {
         db.addPersonItem(item)
     }
 
-    override fun deleteAllPersonItem() {
+    override suspend fun deleteAllPersonItem() {
         db.deleteAllPersonItem()
     }
 }

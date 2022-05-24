@@ -25,7 +25,6 @@ abstract class PersonDatabase : RoomDatabase() {
                     return it
                 }
                 val  db = Room.databaseBuilder(application, PersonDatabase::class.java, DB_NAME)
-                    .allowMainThreadQueries()
                     .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = db

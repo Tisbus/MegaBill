@@ -5,6 +5,6 @@ import com.example.megabill.domain.entities.Person
 
 interface PersonRepository {
     fun getPersonList() : LiveData<MutableList<Person>>
-    fun addPersonItem(item : Person)
-    fun deleteAllPersonItem()
+    suspend fun addPersonItem(item : Person)
+    suspend fun deleteAllPersonItem()
 }

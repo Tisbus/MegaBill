@@ -12,11 +12,11 @@ interface BillDao {
     @Query("SELECT * FROM bill")
     fun getBillList() : LiveData<MutableList<Bill>>
     @Query("SELECT * FROM bill WHERE id = :itemId")
-    fun getBillItem(itemId : Int) : Bill
+    suspend fun getBillItem(itemId : Int) : Bill
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addBillItem(item : Bill)
+    suspend fun addBillItem(item : Bill)
     @Query("DELETE FROM bill WHERE id=:shopId")
-    fun deleteBillItem(shopId : Int)
+    suspend fun deleteBillItem(shopId : Int)
     @Query("DELETE FROM bill")
-    fun deleteAllBillItem()
+    suspend fun deleteAllBillItem()
 }

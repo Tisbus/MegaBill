@@ -11,9 +11,9 @@ import com.example.megabill.domain.entities.Total
 interface TotalDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertItem(item : Total)
+    suspend fun insertItem(item : Total)
     @Query("SELECT * FROM total")
     fun getListTotal() : LiveData<MutableList<Total>>
     @Query("DELETE From total")
-    fun deleteAllTotal()
+    suspend fun deleteAllTotal()
 }

@@ -14,23 +14,23 @@ class BillRepositoryImpl(application: Application) : BillRepository {
         return db.getBillList()
     }
 
-    override fun getBillItem(itemId: Int): Bill {
+    override suspend fun getBillItem(itemId: Int): Bill {
         return db.getBillItem(itemId)
     }
 
-    override fun editBillItem(item: Bill) {
+    override suspend fun editBillItem(item: Bill) {
         db.addBillItem(item)
     }
 
-    override fun addBillItem(item: Bill) {
+    override suspend fun addBillItem(item: Bill) {
         db.addBillItem(item)
     }
 
-    override fun deleteBillItem(id: Int) {
+    override suspend fun deleteBillItem(id: Int) {
         db.deleteBillItem(id)
     }
 
-    override fun deleteAllBillItem() {
+    override suspend fun deleteAllBillItem() {
         db.deleteAllBillItem()
     }
 }

@@ -13,12 +13,12 @@ interface BillHistoryDao {
     @Query("SELECT * FROM bill_history")
     fun getBillHistoryList() : LiveData<MutableList<BillHistory>>
     @Query("SELECT * from bill_history WHERE id=:itemId")
-    fun getBillHistoryItem(itemId : Int) : BillHistory
+    suspend fun getBillHistoryItem(itemId : Int) : BillHistory
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addBillHistoryItem(item : BillHistory)
+    suspend fun addBillHistoryItem(item : BillHistory)
     @Query("DELETE from bill_history")
-    fun deleteAllBillHistory()
+    suspend fun deleteAllBillHistory()
     @Query("DELETE from bill_history WHERE id=:itemId")
-    fun deleteBillHistoryItem(itemId : Int)
+    suspend fun deleteBillHistoryItem(itemId : Int)
 
 }

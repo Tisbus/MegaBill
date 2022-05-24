@@ -12,19 +12,19 @@ class BillHistoryRepositoryImpl(application: Application) : HistoryRepository {
 
     override fun getBillHistoryList(): LiveData<MutableList<BillHistory>> = db.getBillHistoryList()
 
-    override fun addBillHistoryItem(item: BillHistory) {
+    override suspend fun addBillHistoryItem(item: BillHistory) {
         db.addBillHistoryItem(item)
     }
 
-    override fun deleteBillHistoryItem(itemId: Int) {
+    override suspend fun deleteBillHistoryItem(itemId: Int) {
         db.deleteBillHistoryItem(itemId)
     }
 
-    override fun deleteAllBillHistory() {
+    override suspend fun deleteAllBillHistory() {
         db.deleteAllBillHistory()
     }
 
-    override fun getBillHistoryItem(itemId: Int) : BillHistory{
+    override suspend fun getBillHistoryItem(itemId: Int) : BillHistory{
        return  db.getBillHistoryItem(itemId)
     }
 }

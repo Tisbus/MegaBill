@@ -11,7 +11,7 @@ fun tvTotalSumWithTipDetail(text: TextView, total: String) {
 @BindingAdapter("etItemNameCheck")
 fun bindCheckNameError(edit : TextInputLayout, isError : Boolean){
     val message = if(isError){
-        "Пустой текст"
+        "Поле пустое, введите имя"
     }else{
         null
     }
@@ -21,7 +21,7 @@ fun bindCheckNameError(edit : TextInputLayout, isError : Boolean){
 @BindingAdapter("etPriceCheck")
 fun bindCheckPriceError(edit : TextInputLayout, isError : Boolean) {
     val message = if(isError){
-        "Цена путая или ровна нулю"
+        "Поле пустое, введите цену больше нуля"
     }else{
         null
     }

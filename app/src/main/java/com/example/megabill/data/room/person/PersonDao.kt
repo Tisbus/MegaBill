@@ -11,7 +11,7 @@ interface PersonDao {
     @Query("SELECT * FROM person")
     fun getPersonList() : LiveData<MutableList<Person>>
     @Insert
-    fun addPersonItem(item : Person)
+    suspend fun addPersonItem(item : Person)
     @Query("DELETE FROM person")
-    fun deleteAllPersonItem()
+    suspend fun deleteAllPersonItem()
 }
