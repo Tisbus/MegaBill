@@ -4,7 +4,7 @@ import com.example.megabill.domain.entities.BillHistory
 import com.example.megabill.domain.repository.history.HistoryRepository
 
 class GetBillHistoryItemUseCase(private val repository: HistoryRepository) {
-    suspend fun getBillHistoryItem(itemId : Int) : BillHistory{
+    fun getBillHistoryItem(itemId : Int) : BillHistory{
         return repository.getBillHistoryItem(itemId)
     }
 }

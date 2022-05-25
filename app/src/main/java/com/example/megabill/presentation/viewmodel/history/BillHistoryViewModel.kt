@@ -4,12 +4,10 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.example.megabill.data.repository.history.BillHistoryRepositoryImpl
 import com.example.megabill.domain.entities.BillHistory
 import com.example.megabill.domain.entities.Total
 import com.example.megabill.domain.usecase.history.*
-import kotlinx.coroutines.launch
 
 class BillHistoryViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = BillHistoryRepositoryImpl(application)
@@ -33,36 +31,28 @@ class BillHistoryViewModel(application: Application) : AndroidViewModel(applicat
         totalSum: String,
         totalSumWithTip: String
     ) {
-        viewModelScope.launch {
-            addBillHistoryItemUseCase.addBillHistoryItem(
-                BillHistory(
-                    data,
-                    partyName,
-                    itemProduct,
-                    totalSum,
-                    totalSumWithTip
-                )
+        addBillHistoryItemUseCase.addBillHistoryItem(
+            BillHistory(
+                data,
+                partyName,
+                itemProduct,
+                totalSum,
+                totalSumWithTip
             )
-        }
+        )
     }
 
     fun deleteAllBillHistory() {
-        viewModelScope.launch {
-            deleteAllBillHistoryUseCase.deleteAllBillHistory()
-        }
+        deleteAllBillHistoryUseCase.deleteAllBillHistory()
     }
 
     fun deleteBillHistoryItem(itemId: Int) {
-        viewModelScope.launch {
-            deleteBillHistoryItemUseCase.deleteBillHistoryItemUseCase(itemId)
-        }
+        deleteBillHistoryItemUseCase.deleteBillHistoryItem(itemId)
     }
 
     fun getBillHistoryItem(itemId: Int) {
-        viewModelScope.launch {
-            val billHistory = getBillHistoryItemUseCase.getBillHistoryItem(itemId)
-            _getItemHistoryLD.value = billHistory
-        }
+        val billHistory = getBillHistoryItemUseCase.getBillHistoryItem(itemId)
+        _getItemHistoryLD.value = billHistory
     }
 
 }

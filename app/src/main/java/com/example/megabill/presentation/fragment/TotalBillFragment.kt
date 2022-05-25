@@ -20,8 +20,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class TotalBillFragment : Fragment() {
-    private var param1: String? = null
-    private var param2: String? = null
     private var _bind: FragmentTotalBillBinding? = null
     private val bind: FragmentTotalBillBinding
         get() = _bind ?: throw RuntimeException("FragmentTotalBillBinding == null")
@@ -53,7 +51,6 @@ class TotalBillFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         _bind = FragmentTotalBillBinding.inflate(inflater, container, false)
         return bind.root
     }
@@ -68,13 +65,13 @@ class TotalBillFragment : Fragment() {
         modelTotal.listTotal.observe(viewLifecycleOwner) {
             listAllTotal = it
             recyclerSetup()
+            calculateTips()
             bind.tvSumBill.text =
                 String.format("%s %s %s", "Сумма счёта:", calculateTotalSum().toString(), "руб.")
         }
         changeSwitchTip()
         bind.bAcceptTip.setOnClickListener {
             calculateTips()
-
         }
         bind.bSaveBill.setOnClickListener {
             saveDataToBillHistory()
