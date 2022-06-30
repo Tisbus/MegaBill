@@ -1,22 +1,20 @@
 package com.example.megabill.presentation.viewmodel.history
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.megabill.data.repository.history.BillHistoryRepositoryImpl
+import androidx.lifecycle.ViewModel
 import com.example.megabill.domain.entities.BillHistory
 import com.example.megabill.domain.entities.Total
 import com.example.megabill.domain.usecase.history.*
+import javax.inject.Inject
 
-class BillHistoryViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository = BillHistoryRepositoryImpl(application)
-
-    private val getBillHistoryListUseCase = GetBillHistoryListUseCase(repository)
-    private val addBillHistoryItemUseCase = AddBillHistoryItemUseCase(repository)
-    private val deleteBillHistoryItemUseCase = DeleteBillHistoryItemUseCase(repository)
-    private val deleteAllBillHistoryUseCase = DeleteAllBillHistoryUseCase(repository)
-    private val getBillHistoryItemUseCase = GetBillHistoryItemUseCase(repository)
+class BillHistoryViewModel @Inject constructor(
+    private val getBillHistoryListUseCase: GetBillHistoryListUseCase,
+    private val addBillHistoryItemUseCase: AddBillHistoryItemUseCase,
+    private val deleteBillHistoryItemUseCase: DeleteBillHistoryItemUseCase,
+    private val deleteAllBillHistoryUseCase: DeleteAllBillHistoryUseCase,
+    private val getBillHistoryItemUseCase: GetBillHistoryItemUseCase,
+) : ViewModel() {
 
     val listBillHistory = getBillHistoryListUseCase.getListBillHistory()
 
@@ -29,7 +27,7 @@ class BillHistoryViewModel(application: Application) : AndroidViewModel(applicat
         partyName: String,
         itemProduct: List<Total>,
         totalSum: String,
-        totalSumWithTip: String
+        totalSumWithTip: String,
     ) {
         addBillHistoryItemUseCase.addBillHistoryItem(
             BillHistory(

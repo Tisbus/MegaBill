@@ -1,32 +1,29 @@
 package com.example.megabill.presentation.viewmodel.total
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.megabill.data.repository.total.TotalRepositoryImpl
 import com.example.megabill.domain.entities.Total
 import com.example.megabill.domain.usecase.total.AddTotalItemUseCase
 import com.example.megabill.domain.usecase.total.DeleteAllTotalUseCase
 import com.example.megabill.domain.usecase.total.GetTotalListUseCase
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class TotalViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val repository = TotalRepositoryImpl(application)
-
-    private val addTotalItemUseCase = AddTotalItemUseCase(repository)
-    private val deleteAllTotalUseCase = DeleteAllTotalUseCase(repository)
-    private val getTotalListUseCase = GetTotalListUseCase(repository)
+class TotalViewModel @Inject constructor(
+    private val addTotalItemUseCase: AddTotalItemUseCase,
+    private val deleteAllTotalUseCase: DeleteAllTotalUseCase,
+    private val getTotalListUseCase: GetTotalListUseCase,
+) : ViewModel() {
 
     val listTotal = getTotalListUseCase.getTotalList()
 
     fun addItemTotal(
-        namePerson : String,
-        listBuyProduct : String,
-        totalSumToPerson : String,
-        sumTips : String,
-        totalSumWithTips : String
-    ){
+        namePerson: String,
+        listBuyProduct: String,
+        totalSumToPerson: String,
+        sumTips: String,
+        totalSumWithTips: String,
+    ) {
         viewModelScope.launch {
             addTotalItemUseCase.addItemTotal(
                 Total(
@@ -40,7 +37,7 @@ class TotalViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun deleteAllTotal(){
+    fun deleteAllTotal() {
         viewModelScope.launch {
             deleteAllTotalUseCase.deleteAllTotal()
         }

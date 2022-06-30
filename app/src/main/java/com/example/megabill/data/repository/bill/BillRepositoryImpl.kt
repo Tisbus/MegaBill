@@ -1,14 +1,14 @@
 package com.example.megabill.data.repository.bill
 
-import android.app.Application
 import androidx.lifecycle.LiveData
-import com.example.megabill.data.room.bill.BillDatabase
+import com.example.megabill.data.room.bill.BillDao
 import com.example.megabill.domain.entities.Bill
 import com.example.megabill.domain.repository.bill.BillRepository
+import javax.inject.Inject
 
-class BillRepositoryImpl(application: Application) : BillRepository {
-
-    private val db = BillDatabase.getInstance(application).billDao()
+class BillRepositoryImpl @Inject constructor(
+    private val db : BillDao
+) : BillRepository {
 
     override fun getBillList(): LiveData<MutableList<Bill>> {
         return db.getBillList()

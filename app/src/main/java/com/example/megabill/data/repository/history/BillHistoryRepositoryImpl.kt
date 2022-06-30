@@ -1,14 +1,15 @@
 package com.example.megabill.data.repository.history
 
-import android.app.Application
 import androidx.lifecycle.LiveData
-import com.example.megabill.data.room.history.BillHistoryDatabase
+import com.example.megabill.data.room.history.BillHistoryDao
 import com.example.megabill.domain.entities.BillHistory
 import com.example.megabill.domain.repository.history.HistoryRepository
+import javax.inject.Inject
 
-class BillHistoryRepositoryImpl(application: Application) : HistoryRepository {
+class BillHistoryRepositoryImpl @Inject constructor(
+    private val db : BillHistoryDao
 
-    private val db = BillHistoryDatabase.getInstance(application).billHistoryDao()
+) : HistoryRepository {
 
     override fun getBillHistoryList(): LiveData<MutableList<BillHistory>> = db.getBillHistoryList()
 

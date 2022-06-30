@@ -1,25 +1,22 @@
 package com.example.megabill.presentation.viewmodel.bill
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.megabill.data.repository.bill.BillRepositoryImpl
 import com.example.megabill.domain.entities.Bill
 import com.example.megabill.domain.usecase.bill.*
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class BillViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val repository = BillRepositoryImpl(application)
-
-    private val addBillItemUseCase = AddBillItemUseCase(repository)
-    private val deleteAllBillItemUseCase = DeleteAllBillItemUseCase(repository)
-    private val deleteBillItemUseCase = DeleteBillItemUseCase(repository)
-    private val editBillItemUseCase = EditBillItemUseCase(repository)
-    private val getBillItemUseCase = GetBillItemUseCase(repository)
-    private val getBillListUseCase = GetBillListUseCase(repository)
+class BillViewModel @Inject constructor(
+    private val addBillItemUseCase: AddBillItemUseCase,
+    private val deleteAllBillItemUseCase: DeleteAllBillItemUseCase,
+    private val deleteBillItemUseCase: DeleteBillItemUseCase,
+    private val editBillItemUseCase: EditBillItemUseCase,
+    private val getBillItemUseCase: GetBillItemUseCase,
+    private val getBillListUseCase: GetBillListUseCase,
+) : ViewModel() {
 
     private val _getBillItemLD = MutableLiveData<Bill>()
     val getBillItemLD: LiveData<Bill>
@@ -39,7 +36,7 @@ class BillViewModel(application: Application) : AndroidViewModel(application) {
         name: String,
         nameId: Int,
         item: String,
-        price: String
+        price: String,
     ) {
         val nameItem = inputItem(item)
         val priceItem = inputPrice(price)
@@ -96,7 +93,7 @@ class BillViewModel(application: Application) : AndroidViewModel(application) {
         return try {
             inputPrice?.trim()?.toInt() ?: 0
         } catch (
-            e: Exception
+            e: Exception,
         ) {
             0
         }

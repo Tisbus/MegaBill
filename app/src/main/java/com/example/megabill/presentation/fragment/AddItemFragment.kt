@@ -1,5 +1,6 @@
 package com.example.megabill.presentation.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -7,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -15,11 +15,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.megabill.R
 import com.example.megabill.databinding.FragmentAddItemBinding
 import com.example.megabill.domain.entities.Person
+import com.example.megabill.presentation.BillApp
 import com.example.megabill.presentation.adapter.ChoosePersonAdapter
 import com.example.megabill.presentation.viewmodel.bill.BillViewModel
+import com.example.megabill.presentation.viewmodel.factory.BillViewModelFactory
 import com.example.megabill.presentation.viewmodel.person.PersonViewModel
+import javax.inject.Inject
 
 class AddItemFragment : Fragment() {
+    @Inject
+    lateinit var viewModelFactory: BillViewModelFactory
+
+    private val component by lazy{
+        (requireActivity().application as BillApp).component
+    }
 
     private lateinit var billViewModel: BillViewModel
     private lateinit var personViewModel: PersonViewModel
@@ -38,6 +47,11 @@ class AddItemFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
+    override fun onAttach(context: Context) {
+        component.inject(this)
+        super.onAttach(context)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,8 +63,8 @@ class AddItemFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        billViewModel = ViewModelProvider(this)[BillViewModel::class.java]
-        personViewModel = ViewModelProvider(this)[PersonViewModel::class.java]
+        billViewModel = ViewModelProvider(this, viewModelFactory)[BillViewModel::class.java]
+        personViewModel = ViewModelProvider(this, viewModelFactory)[PersonViewModel::class.java]
         personViewModel.listPerson.observe(viewLifecycleOwner) {
             choosePersonList = it
             setupRecyclerView()

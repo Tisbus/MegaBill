@@ -1,5 +1,6 @@
 package com.example.megabill.presentation.fragment
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,11 +12,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.megabill.R
 import com.example.megabill.databinding.FragmentBillDetailBinding
 import com.example.megabill.domain.entities.Total
+import com.example.megabill.presentation.BillApp
 import com.example.megabill.presentation.adapter.DetailBillAdapter
+import com.example.megabill.presentation.viewmodel.factory.BillViewModelFactory
 import com.example.megabill.presentation.viewmodel.history.BillHistoryViewModel
+import javax.inject.Inject
 
 
 class BillDetailFragment : Fragment() {
+
+    @Inject
+    lateinit var viewModelFactory : BillViewModelFactory
+
+    private val component by lazy{
+        (requireActivity().application as BillApp).component
+    }
 
     private var itemId : Int? = null
 
@@ -35,6 +46,10 @@ class BillDetailFragment : Fragment() {
         itemId = arguments?.getInt(ARG_ITEM_ID)
     }
 
+    override fun onAttach(context: Context) {
+        component.inject(this)
+        super.onAttach(context)
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,7 +61,7 @@ class BillDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        modelBillHistory = ViewModelProvider(this)[BillHistoryViewModel::class.java]
+        modelBillHistory = ViewModelProvider(this, viewModelFactory)[BillHistoryViewModel::class.java]
         getData()
         setupRecycler()
         backButton()

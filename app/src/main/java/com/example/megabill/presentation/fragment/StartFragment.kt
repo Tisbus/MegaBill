@@ -1,5 +1,6 @@
 package com.example.megabill.presentation.fragment
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,12 +14,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.megabill.R
 import com.example.megabill.databinding.FragmentStartBinding
 import com.example.megabill.domain.entities.BillHistory
+import com.example.megabill.presentation.BillApp
 import com.example.megabill.presentation.adapter.StartBillAdapter
+import com.example.megabill.presentation.viewmodel.factory.BillViewModelFactory
 import com.example.megabill.presentation.viewmodel.history.BillHistoryViewModel
 import java.lang.RuntimeException
+import javax.inject.Inject
 
 class StartFragment : Fragment() {
 
+    @Inject
+    lateinit var viewModelFactory : BillViewModelFactory
+    private val component by lazy{
+        (requireActivity().application as BillApp).component
+    }
     private var _bind : FragmentStartBinding? = null
     private val bind : FragmentStartBinding
     get() = _bind ?: throw RuntimeException("FragmentStartBinding == null")
@@ -31,6 +40,11 @@ class StartFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
+    override fun onAttach(context: Context) {
+        component.inject(this)
+        super.onAttach(context)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,7 +55,7 @@ class StartFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        modelHistory = ViewModelProvider(this)[BillHistoryViewModel::class.java]
+        modelHistory = ViewModelProvider(this, viewModelFactory)[BillHistoryViewModel::class.java]
 
         modelHistory.listBillHistory.observe(viewLifecycleOwner){
             listStartBill = it

@@ -1,5 +1,6 @@
 package com.example.megabill.presentation.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,11 +14,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.megabill.R
 import com.example.megabill.databinding.FragmentListBillBinding
 import com.example.megabill.domain.entities.Bill
+import com.example.megabill.presentation.BillApp
 import com.example.megabill.presentation.adapter.ListBillAdapter
 import com.example.megabill.presentation.viewmodel.bill.BillViewModel
+import com.example.megabill.presentation.viewmodel.factory.BillViewModelFactory
 import com.example.megabill.presentation.viewmodel.total.TotalViewModel
+import javax.inject.Inject
 
 class ListBillFragment : Fragment() {
+
+    @Inject
+    lateinit var viewModelFactory : BillViewModelFactory
+    private val component by lazy{
+        (requireActivity().application as BillApp).component
+    }
 
     private lateinit var viewBillModel: BillViewModel
     private lateinit var modelTotal: TotalViewModel
@@ -32,6 +42,10 @@ class ListBillFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
+    override fun onAttach(context: Context) {
+        component.inject(this)
+        super.onAttach(context)
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,8 +57,8 @@ class ListBillFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewBillModel = ViewModelProvider(this)[BillViewModel::class.java]
-        modelTotal = ViewModelProvider(this)[TotalViewModel::class.java]
+        viewBillModel = ViewModelProvider(this, viewModelFactory)[BillViewModel::class.java]
+        modelTotal = ViewModelProvider(this, viewModelFactory)[TotalViewModel::class.java]
         viewBillModel.listBill.observe(viewLifecycleOwner) {
             billList = it
             recyclerMain()

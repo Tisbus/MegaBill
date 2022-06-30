@@ -1,5 +1,6 @@
 package com.example.megabill.presentation.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,9 +14,18 @@ import androidx.navigation.fragment.findNavController
 import com.example.megabill.R
 import com.example.megabill.databinding.FragmentAddPersonBinding
 import com.example.megabill.domain.entities.Person
+import com.example.megabill.presentation.BillApp
+import com.example.megabill.presentation.viewmodel.factory.BillViewModelFactory
 import com.example.megabill.presentation.viewmodel.person.PersonViewModel
+import javax.inject.Inject
 
 class AddPersonFragment : Fragment() {
+    @Inject
+    lateinit var viewModelFactory : BillViewModelFactory
+
+    private val component by lazy{
+        (requireActivity().application as BillApp).component
+    }
 
     private var _bind: FragmentAddPersonBinding? = null
     private val bind: FragmentAddPersonBinding
@@ -31,6 +41,11 @@ class AddPersonFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
+    override fun onAttach(context: Context) {
+        component.inject(this)
+        super.onAttach(context)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,7 +57,7 @@ class AddPersonFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[PersonViewModel::class.java]
+        viewModel = ViewModelProvider(this, viewModelFactory)[PersonViewModel::class.java]
         viewModel.listPerson.observe(viewLifecycleOwner) {
             clearData()
             listPerson = it

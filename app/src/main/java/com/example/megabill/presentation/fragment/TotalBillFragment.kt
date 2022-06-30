@@ -1,5 +1,6 @@
 package com.example.megabill.presentation.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,15 +12,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.megabill.R
 import com.example.megabill.databinding.FragmentTotalBillBinding
 import com.example.megabill.domain.entities.Total
+import com.example.megabill.presentation.BillApp
 import com.example.megabill.presentation.adapter.TotalBillAdapter
 import com.example.megabill.presentation.viewmodel.bill.BillViewModel
+import com.example.megabill.presentation.viewmodel.factory.BillViewModelFactory
 import com.example.megabill.presentation.viewmodel.history.BillHistoryViewModel
 import com.example.megabill.presentation.viewmodel.person.PersonViewModel
 import com.example.megabill.presentation.viewmodel.total.TotalViewModel
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
 class TotalBillFragment : Fragment() {
+    @Inject
+    lateinit var viewModelFactory : BillViewModelFactory
+    private val component by lazy{
+        (requireActivity().application as BillApp).component
+    }
     private var _bind: FragmentTotalBillBinding? = null
     private val bind: FragmentTotalBillBinding
         get() = _bind ?: throw RuntimeException("FragmentTotalBillBinding == null")
@@ -47,6 +56,10 @@ class TotalBillFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
+    override fun onAttach(context: Context) {
+        component.inject(this)
+        super.onAttach(context)
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -58,10 +71,10 @@ class TotalBillFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bind.etTipsSize.setText("0")
-        modelTotal = ViewModelProvider(this)[TotalViewModel::class.java]
-        modelHistory = ViewModelProvider(this)[BillHistoryViewModel::class.java]
-        modelPerson = ViewModelProvider(this)[PersonViewModel::class.java]
-        modelBill = ViewModelProvider(this)[BillViewModel::class.java]
+        modelTotal = ViewModelProvider(this, viewModelFactory)[TotalViewModel::class.java]
+        modelHistory = ViewModelProvider(this, viewModelFactory)[BillHistoryViewModel::class.java]
+        modelPerson = ViewModelProvider(this, viewModelFactory)[PersonViewModel::class.java]
+        modelBill = ViewModelProvider(this, viewModelFactory)[BillViewModel::class.java]
         modelTotal.listTotal.observe(viewLifecycleOwner) {
             listAllTotal = it
             recyclerSetup()

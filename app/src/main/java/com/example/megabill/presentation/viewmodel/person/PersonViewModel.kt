@@ -1,21 +1,19 @@
 package com.example.megabill.presentation.viewmodel.person
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.megabill.data.repository.person.PersonRepositoryImpl
 import com.example.megabill.domain.entities.Person
 import com.example.megabill.domain.usecase.person.AddPersonItemUseCase
 import com.example.megabill.domain.usecase.person.DeleteAllPersonItemUseCase
 import com.example.megabill.domain.usecase.person.GetPersonListUseCase
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class PersonViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository = PersonRepositoryImpl(application)
-
-    private val addPersonItemUseCase = AddPersonItemUseCase(repository)
-    private val deleteAllPersonItemUseCase = DeleteAllPersonItemUseCase(repository)
-    private val getPersonListUseCase = GetPersonListUseCase(repository)
+class PersonViewModel @Inject constructor(
+    private val addPersonItemUseCase: AddPersonItemUseCase,
+    private val deleteAllPersonItemUseCase: DeleteAllPersonItemUseCase,
+    private val getPersonListUseCase: GetPersonListUseCase
+) : ViewModel() {
 
     val listPerson = getPersonListUseCase.getPersonList()
 
